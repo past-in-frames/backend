@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique
+  name      String    @unique
+  articles  Article[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Author {
+  id        Int       @id @default(autoincrement())
+  name      String
+  articles  Article[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  articles  Article[]
+  createdAt DateTime  @default(now())
+}
+
+model Article {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  dek         String    @db.Text
+  body        String    @db.LongText
+  imageLabel  String?
+  gradient    String?
+  readTimeMin Int       @default(5)
+  featured    Boolean   @default(false)
+  trending    Boolean   @default(false)
+  publishedAt DateTime?
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  authorId    Int
+  author      Author    @relation(fields: [authorId], references: [id])
+  tags        Tag[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([categoryId])
+  @@index([authorId])
+}
+
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  @@map("users")
+}
