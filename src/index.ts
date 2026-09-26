@@ -8,11 +8,9 @@ import express, {
 import { redactSecrets } from './lib/database-url';
 import { HttpError } from './lib/http-error';
 import { prisma } from './lib/prisma';
-import { articlesRouter } from './routes/articles';
-import { authorsRouter } from './routes/authors';
-import { categoriesRouter } from './routes/categories';
+import { adminRouter } from './routes/admin';
 import { healthRouter } from './routes/health';
-import { subscribersRouter } from './routes/subscribers';
+import { storiesRouter } from './routes/stories';
 
 dotenv.config({ override: true });
 
@@ -26,10 +24,8 @@ app.use(
 app.use(express.json());
 
 app.use('/api/health', healthRouter);
-app.use('/api/categories', categoriesRouter);
-app.use('/api/authors', authorsRouter);
-app.use('/api/articles', articlesRouter);
-app.use('/api/subscribers', subscribersRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/stories', storiesRouter);
 
 app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
   if (error instanceof HttpError) {

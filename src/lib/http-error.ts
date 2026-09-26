@@ -18,3 +18,11 @@ export function conflict(message: string) {
 export function badRequest(message: string) {
   return new HttpError(400, message);
 }
+
+export function unauthorized(message: string) {
+  return new HttpError(401, message);
+}
+
+export function serviceUnavailable(message: string) {
+  return new HttpError(503, message);
+}

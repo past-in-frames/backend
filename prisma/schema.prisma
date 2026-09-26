@@ -7,63 +7,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
-  id        Int       @id @default(autoincrement())
-  slug      String    @unique
-  name      String    @unique
-  articles  Article[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+enum StoryStatus {
+  draft
+  published
 }
 
-model Author {
-  id        Int       @id @default(autoincrement())
-  name      String
-  articles  Article[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+enum StoryMediaType {
+  video
+  image
 }
 
-model Tag {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  articles  Article[]
-  createdAt DateTime  @default(now())
-}
-
-model Article {
-  id          Int       @id @default(autoincrement())
-  slug        String    @unique
+model Story {
+  id          Int           @id @default(autoincrement())
+  slug        String        @unique
   title       String
-  dek         String    @db.Text
-  body        String    @db.LongText
-  imageLabel  String?
-  gradient    String?
-  readTimeMin Int       @default(5)
-  featured    Boolean   @default(false)
-  trending    Boolean   @default(false)
-  publishedAt DateTime?
-  categoryId  Int
-  category    Category  @relation(fields: [categoryId], references: [id])
-  authorId    Int
-  author      Author    @relation(fields: [authorId], references: [id])
-  tags        Tag[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  summary     String        @db.Text
+  body        String        @db.LongText
+  eventDate   DateTime      @map("event_date") @db.Date
+  category    String
+  type        String?
+  subtype     String?
+  status      StoryStatus   @default(draft)
+  publishedAt DateTime?     @map("published_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  media       StoryMedia[]
+  sources     StorySource[]
 
-  @@index([categoryId])
-  @@index([authorId])
+  @@index([eventDate], map: "stories_event_date_idx")
+  @@index([status], map: "stories_status_idx")
+  @@map("stories")
 }
 
-model Subscriber {
+model StoryMedia {
+  id            Int            @id @default(autoincrement())
+  storyId       Int            @map("story_id")
+  story         Story          @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  key           String         @map("media_key")
+  type          StoryMediaType
+  url           String?        @db.VarChar(512)
+  caption       String?        @db.Text
+  altText       String?        @map("alt_text") @db.Text
+  credit        String?        @db.Text
+  isAiGenerated Boolean        @default(false) @map("is_ai_generated")
+  sortOrder     Int            @default(0) @map("sort_order")
+
+  @@unique([storyId, key], map: "story_media_story_id_media_key_key")
+  @@index([storyId, sortOrder], map: "story_media_story_id_sort_order_idx")
+  @@map("story_media")
+}
+
+model AdminCredential {
+  id           Int    @id @default(1)
+  passwordHash String @map("password_hash") @db.VarChar(255)
+
+  @@map("admin_credentials")
+}
+
+model AdminSession {
+  tokenHash String   @id @map("token_hash") @db.Char(64)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("admin_sessions")
+}
+
+model StorySource {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  createdAt DateTime @default(now())
-}
+  storyId   Int      @map("story_id")
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  title     String
+  url       String   @db.VarChar(512)
+  publisher String
 
-model User {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  @@map("users")
+  @@unique([storyId, url], map: "story_sources_story_id_url_key")
+  @@map("story_sources")
 }
