@@ -19,9 +19,17 @@ storiesRouter.get(
   '/',
   asyncHandler(async (req, res) => {
     const category = typeof req.query.category === 'string' ? req.query.category.trim() : '';
+    const typeQuery = typeof req.query.type === 'string' ? req.query.type.trim() : '';
+    const type = typeQuery === 'science' || typeQuery === 'history' ? typeQuery : '';
+    const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
 
     const stories = await prisma.story.findMany({
-      where: { ...published, ...(category ? { category } : {}) },
+      where: {
+        ...published,
+        ...(category ? { category } : {}),
+        ...(type ? { type } : {}),
+        ...(titleQuery ? { title: { contains: titleQuery } } : {}),
+      },
       orderBy: [{ eventDate: 'desc' }, { id: 'desc' }],
       select: {
         slug: true,

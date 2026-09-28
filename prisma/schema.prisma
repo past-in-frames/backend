@@ -36,6 +36,7 @@ model Story {
 
   @@index([eventDate], map: "stories_event_date_idx")
   @@index([status], map: "stories_status_idx")
+  @@index([title], map: "stories_title_idx")
   @@map("stories")
 }
 
