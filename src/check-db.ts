@@ -1,28 +1,20 @@
-import { redactSecrets } from './lib/database-url';
+import { errorMessage } from './lib/env';
 import { prisma } from './lib/prisma';
 
+/** Confirms the API can reach the production database and that the schema is present. */
 async function main() {
-  const rows = await prisma.$queryRaw<Array<{ ok: number }>>`SELECT 1 AS ok`;
-  const status = await prisma.$queryRawUnsafe<Array<{ Variable_name: string; Value: string }>>(
-    "SHOW SESSION STATUS LIKE 'Ssl_cipher'",
-  );
-  const cipher = status[0]?.Value ?? '';
+  const rows = await prisma.$queryRaw<Array<{ ok: unknown }>>`SELECT 1 AS ok`;
+  const stories = await prisma.story.count();
+  const published = await prisma.story.count({ where: { status: 'published' } });
 
-  console.log(`select1=${rows[0]?.ok === 1 ? 'ok' : 'unexpected'}`);
-  console.log(`ssl_cipher=${cipher || '(empty)'}`);
-  console.log(`encrypted=${cipher.length > 0 ? 'yes' : 'no'}`);
-
-  if (rows[0]?.ok !== 1 || cipher.length === 0) {
-    process.exitCode = 1;
-  }
+  console.log(`connection=${Number(rows[0]?.ok) === 1 ? 'ok' : 'unexpected'}`);
+  console.log(`stories=${stories} published=${published}`);
 }
 
 main()
   .catch((error: unknown) => {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(redactSecrets(message));
+    console.error(errorMessage(error));
+    console.error('\nIs the SSH tunnel running? Start it with: npm run db:tunnel');
     process.exitCode = 1;
   })
-  .finally(async () => {
-    await prisma.$disconnect().catch(() => undefined);
-  });
+  .finally(() => prisma.$disconnect().catch(() => undefined));

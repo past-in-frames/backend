@@ -3,6 +3,16 @@ import { promisify } from 'node:util';
 
 const scryptAsync = promisify(scrypt);
 
+const KEY_BYTES = 32;
+const SALT_BYTES = 16;
+
+/** Stored as `scrypt$<salt>$<hash>`, both parts base64url encoded. */
+export async function hashPassword(password: string) {
+  const salt = randomBytes(SALT_BYTES);
+  const hash = (await scryptAsync(password, salt, KEY_BYTES)) as Buffer;
+  return `scrypt$${salt.toString('base64url')}$${hash.toString('base64url')}`;
+}
+
 export async function verifyPassword(password: string, stored: string) {
   const [scheme, salt, hash] = stored.split('$');
   if (scheme !== 'scrypt' || !salt || !hash) {
@@ -16,11 +26,7 @@ export async function verifyPassword(password: string, stored: string) {
   }
 
   const actual = (await scryptAsync(password, saltBytes, expected.length)) as Buffer;
-  if (actual.length !== expected.length) {
-    return false;
-  }
-
-  return timingSafeEqual(actual, expected);
+  return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 
 export function createSessionToken() {

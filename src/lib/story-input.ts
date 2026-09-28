@@ -64,7 +64,7 @@ export type NormalizedStory = {
   sources: { title: string; url: string; publisher: string }[];
 };
 
-export function parseStoryBody(body: unknown) {
+export function parseStoryInput(body: unknown) {
   const parsed = storySchema.safeParse(body);
   if (!parsed.success) {
     throw badRequest(parsed.error.issues.map((issue) => issue.message).join('; '));

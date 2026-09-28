@@ -1,15 +1,27 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/async-handler';
 import { notFound } from '../lib/http-error';
-import { routeParam } from '../lib/params';
 import { prisma } from '../lib/prisma';
+import { param } from '../lib/request';
+import { formatDateOnly, parseStoredBody } from '../lib/story-view';
 
 export const storiesRouter = Router();
 
+/**
+ * Readers arrive from social links and mostly hit the same few stories, so every
+ * public response is cacheable by the CDN and revalidated in the background.
+ */
+const PUBLIC_CACHE = 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400';
+
+const published = { status: 'published' as const };
+
 storiesRouter.get(
   '/',
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
+    const category = typeof req.query.category === 'string' ? req.query.category.trim() : '';
+
     const stories = await prisma.story.findMany({
+      where: { ...published, ...(category ? { category } : {}) },
       orderBy: [{ eventDate: 'desc' }, { id: 'desc' }],
       select: {
         slug: true,
@@ -26,7 +38,7 @@ storiesRouter.get(
       },
     });
 
-    res.json(
+    res.set('Cache-Control', PUBLIC_CACHE).json(
       stories.map((story) => ({
         slug: story.slug,
         title: story.title,
@@ -41,11 +53,26 @@ storiesRouter.get(
 );
 
 storiesRouter.get(
+  '/categories',
+  asyncHandler(async (_req, res) => {
+    const grouped = await prisma.story.groupBy({
+      by: ['category'],
+      where: published,
+      _count: { _all: true },
+      orderBy: { category: 'asc' },
+    });
+
+    res.set('Cache-Control', PUBLIC_CACHE).json(
+      grouped.map((row) => ({ name: row.category, count: row._count._all })),
+    );
+  }),
+);
+
+storiesRouter.get(
   '/:slug',
   asyncHandler(async (req, res) => {
-    const slug = routeParam(req.params.slug);
-    const story = await prisma.story.findUnique({
-      where: { slug },
+    const story = await prisma.story.findFirst({
+      where: { slug: param(req, 'slug'), ...published },
       include: {
         media: { orderBy: { sortOrder: 'asc' } },
         sources: { orderBy: { id: 'asc' } },
@@ -56,19 +83,22 @@ storiesRouter.get(
       throw notFound('Story not found');
     }
 
-    res.json({
+    res.set('Cache-Control', PUBLIC_CACHE).json({
       slug: story.slug,
       title: story.title,
       summary: story.summary,
       eventDate: formatDateOnly(story.eventDate),
+      publishedAt: story.publishedAt?.toISOString() ?? null,
+      updatedAt: story.updatedAt.toISOString(),
       category: story.category,
-      body: JSON.parse(story.body) as unknown,
+      body: parseStoredBody(story.body),
       media: story.media.map((item) => ({
         key: item.key,
         type: item.type,
         url: item.url,
         caption: item.caption,
         altText: item.altText,
+        credit: item.credit,
       })),
       sources: story.sources.map((source) => ({
         title: source.title,
@@ -78,10 +108,3 @@ storiesRouter.get(
     });
   }),
 );
-
-function formatDateOnly(value: Date) {
-  const year = value.getUTCFullYear();
-  const month = String(value.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(value.getUTCDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}

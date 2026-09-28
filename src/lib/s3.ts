@@ -2,7 +2,8 @@ import { randomUUID } from 'node:crypto';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { badRequest, serviceUnavailable } from './http-error';
 
-const MAX_BYTES = 5 * 1024 * 1024;
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
 const IMAGE_PREFIX = 'mi-images';
 
 const MIME_TO_EXT: Record<string, string> = {
@@ -22,15 +23,12 @@ export type UploadedImage = {
 let client: S3Client | null = null;
 
 export async function uploadStoryImage(file: UploadedImage) {
-  const bucket = process.env.AWS_S3_BUCKET?.trim();
-  const region = process.env.AWS_REGION?.trim();
-  if (!bucket || !region) {
-    throw serviceUnavailable('S3 is not configured');
-  }
+  const { bucket, region, publicBase } = s3Config();
+
   if (!file.buffer?.length) {
     throw badRequest('Image file is required');
   }
-  if (file.size > MAX_BYTES) {
+  if (file.size > MAX_IMAGE_BYTES) {
     throw badRequest('Image file is too large');
   }
 
@@ -49,6 +47,7 @@ export async function uploadStoryImage(file: UploadedImage) {
         Key: objectKey,
         Body: file.buffer,
         ContentType: file.mimetype,
+        // Keys are random, so an object never changes once written.
         CacheControl: 'public, max-age=31536000, immutable',
       }),
     );
@@ -56,7 +55,19 @@ export async function uploadStoryImage(file: UploadedImage) {
     throw serviceUnavailable("Couldn't upload the image");
   }
 
-  return { url: publicUrl(objectKey), mediaKey };
+  return { url: `${publicBase}/${objectKey}`, mediaKey };
+}
+
+function s3Config() {
+  const bucket = process.env.AWS_S3_BUCKET?.trim();
+  const region = process.env.AWS_REGION?.trim();
+  const publicBase = process.env.CLOUDFRONT_URL?.trim().replace(/\/+$/, '');
+
+  if (!bucket || !region || !publicBase) {
+    throw serviceUnavailable('Image uploads are not configured');
+  }
+
+  return { bucket, region, publicBase };
 }
 
 function getClient(region: string) {
@@ -64,22 +75,11 @@ function getClient(region: string) {
 
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID?.trim();
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY?.trim();
+
   client = new S3Client({
     region,
-    ...(accessKeyId && secretAccessKey
-      ? { credentials: { accessKeyId, secretAccessKey } }
-      : {}),
+    // Falls back to the instance role when explicit keys are not provided.
+    ...(accessKeyId && secretAccessKey ? { credentials: { accessKeyId, secretAccessKey } } : {}),
   });
   return client;
-}
-
-function publicUrl(objectKey: string) {
-  const base = (process.env.CLOUDFRONT_URL || process.env.AWS_S3_PUBLIC_BASE_URL || '')
-    .trim()
-    .replace(/\/$/, '');
-  if (base) return `${base}/${objectKey}`;
-
-  const bucket = process.env.AWS_S3_BUCKET?.trim();
-  const region = process.env.AWS_REGION?.trim();
-  return `https://${bucket}.s3.${region}.amazonaws.com/${objectKey}`;
 }

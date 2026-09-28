@@ -1,8 +1,7 @@
-import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
-import { applyDatabaseUrl } from './database-url';
+import { env } from './env';
 
-dotenv.config({ override: true });
-applyDatabaseUrl();
-
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({
+  datasourceUrl: env.databaseUrl,
+  log: ['warn', 'error'],
+});

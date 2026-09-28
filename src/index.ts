@@ -1,31 +1,30 @@
+import compression from 'compression';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import express, {
-  type NextFunction,
-  type Request,
-  type Response,
-} from 'express';
-import { redactSecrets } from './lib/database-url';
+import express, { type NextFunction, type Request, type Response } from 'express';
+import { env, errorMessage } from './lib/env';
 import { HttpError } from './lib/http-error';
 import { prisma } from './lib/prisma';
 import { adminRouter } from './routes/admin';
 import { healthRouter } from './routes/health';
 import { storiesRouter } from './routes/stories';
 
-dotenv.config({ override: true });
-
 const app = express();
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_ORIGIN ?? 'http://localhost:3022',
-  }),
-);
-app.use(express.json());
+// Traefik terminates TLS in front of the API, so trust its forwarded headers.
+app.set('trust proxy', 1);
+app.disable('x-powered-by');
+
+app.use(compression());
+app.use(cors({ origin: env.frontendOrigins }));
+app.use(express.json({ limit: '1mb' }));
 
 app.use('/api/health', healthRouter);
-app.use('/api/admin', adminRouter);
 app.use('/api/stories', storiesRouter);
+app.use('/api/admin', adminRouter);
+
+app.use((_req, res) => {
+  res.status(404).json({ message: 'Not found' });
+});
 
 app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
   if (error instanceof HttpError) {
@@ -33,24 +32,18 @@ app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
     return;
   }
 
-  console.error(redactSecrets(error instanceof Error ? error.stack ?? error.message : String(error)));
+  console.error(errorMessage(error));
   res.status(500).json({ message: 'Internal server error' });
 });
 
-const port = Number(process.env.PORT ?? 3023);
-const host = '0.0.0.0';
+const server = app.listen(env.port, '0.0.0.0', () => {
+  console.log(`API listening on http://0.0.0.0:${env.port}`);
+});
 
-async function start() {
-  try {
-    await prisma.$connect();
-  } catch (error) {
-    console.error(redactSecrets(error instanceof Error ? error.message : String(error)));
-    process.exit(1);
-  }
-
-  app.listen(port, host, () => {
-    console.log(`API listening on http://${host}:${port}`);
+for (const signal of ['SIGTERM', 'SIGINT'] as const) {
+  process.on(signal, () => {
+    server.close(() => {
+      void prisma.$disconnect().finally(() => process.exit(0));
+    });
   });
 }
-
-void start();
