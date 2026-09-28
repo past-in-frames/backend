@@ -33,6 +33,11 @@ storiesRouter.get(
     const type = typeQuery === 'science' || typeQuery === 'history' ? typeQuery : '';
     const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
     const limit = parseLimit(req.query.limit);
+    // Seeded stories share a publishedAt, so id breaks the tie by insertion order.
+    const orderBy =
+      req.query.sort === 'latest'
+        ? [{ publishedAt: 'desc' as const }, { id: 'desc' as const }]
+        : [{ eventDate: 'desc' as const }, { id: 'desc' as const }];
 
     const stories = await prisma.story.findMany({
       where: {
@@ -41,7 +46,7 @@ storiesRouter.get(
         ...(type ? { type } : {}),
         ...(titleQuery ? { title: { contains: titleQuery } } : {}),
       },
-      orderBy: [{ eventDate: 'desc' }, { id: 'desc' }],
+      orderBy,
       ...(limit ? { take: limit } : {}),
       select: {
         slug: true,
