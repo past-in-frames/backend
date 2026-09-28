@@ -15,6 +15,16 @@ const PUBLIC_CACHE = 'public, max-age=60, s-maxage=300, stale-while-revalidate=8
 
 const published = { status: 'published' as const };
 
+/** The home page asks for a handful of stories; nothing needs the whole archive at once. */
+const MAX_LIMIT = 50;
+
+function parseLimit(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isInteger(parsed) || parsed < 1) return undefined;
+  return Math.min(parsed, MAX_LIMIT);
+}
+
 storiesRouter.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -22,6 +32,7 @@ storiesRouter.get(
     const typeQuery = typeof req.query.type === 'string' ? req.query.type.trim() : '';
     const type = typeQuery === 'science' || typeQuery === 'history' ? typeQuery : '';
     const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
+    const limit = parseLimit(req.query.limit);
 
     const stories = await prisma.story.findMany({
       where: {
@@ -31,6 +42,7 @@ storiesRouter.get(
         ...(titleQuery ? { title: { contains: titleQuery } } : {}),
       },
       orderBy: [{ eventDate: 'desc' }, { id: 'desc' }],
+      ...(limit ? { take: limit } : {}),
       select: {
         slug: true,
         title: true,
