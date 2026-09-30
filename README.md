@@ -43,8 +43,8 @@ npm run dev            # http://localhost:3023
 Public responses are cacheable and only ever include stories with
 `status = published`.
 
-| Method | Path                       | Notes                                  |
-| ------ | -------------------------- | -------------------------------------- |
+| Method | Path                       | Notes                                   |
+| ------ | -------------------------- | --------------------------------------- |
 | GET    | `/api/health`              | Reports `503` when the database is down |
 | GET    | `/api/stories`             | Optional `?category=` filter            |
 | GET    | `/api/stories/categories`  | Published categories with counts        |
