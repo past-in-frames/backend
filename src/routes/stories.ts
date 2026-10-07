@@ -53,6 +53,7 @@ storiesRouter.get(
         title: true,
         summary: true,
         eventDate: true,
+        updatedAt: true,
         category: true,
         media: {
           where: { type: 'image', url: { not: null } },
@@ -69,6 +70,7 @@ storiesRouter.get(
         title: story.title,
         summary: story.summary,
         eventDate: formatDateOnly(story.eventDate),
+        updatedAt: story.updatedAt.toISOString(),
         category: story.category,
         coverUrl: story.media[0]?.url ?? null,
         coverAlt: story.media[0]?.altText ?? null,
@@ -124,6 +126,7 @@ storiesRouter.get(
         caption: item.caption,
         altText: item.altText,
         credit: item.credit,
+        isAiGenerated: item.isAiGenerated,
       })),
       sources: story.sources.map((source) => ({
         title: source.title,
