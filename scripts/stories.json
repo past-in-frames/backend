@@ -1,1 +1,136 @@
-[]
+[
+  {
+    "type": "history",
+    "title": "The Battle of the Thames",
+    "slug": "battle-of-the-thames-1813",
+    "category": "American History",
+    "eventDate": "1813-10-05",
+    "location": "Near Moraviantown, present-day Ontario, Canada",
+    "excerpt": "On October 5, 1813, American forces defeated British troops and their Indigenous allies at the Battle of the Thames. Shawnee leader Tecumseh died in the fighting, dealing a devastating blow to his Indigenous confederacy.",
+    "story": [
+      {
+        "heading": "War on the Northern Frontier",
+        "text": "During the War of 1812, American and British forces struggled for control of the Great Lakes region. Tecumseh and his Indigenous allies fought alongside the British while pursuing their own goal of defending Indigenous homelands against American expansion."
+      },
+      {
+        "heading": "The British Retreat",
+        "text": "After the American victory on Lake Erie in September 1813, British commander Henry Procter abandoned Detroit and retreated into Upper Canada. American troops under William Henry Harrison pursued his forces along the Thames River."
+      },
+      {
+        "heading": "The Stand at Moraviantown",
+        "text": "On October 5, British troops and Indigenous warriors took defensive positions near Moraviantown. Exhausted by the retreat and short of supplies, they faced a larger American force."
+      },
+      {
+        "heading": "The Mounted Attack",
+        "text": "Mounted Kentucky troops broke through the British line, and many British soldiers surrendered. Fighting continued against the Indigenous warriors holding their positions in the nearby woodland."
+      },
+      {
+        "heading": "Tecumseh Falls",
+        "text": "Tecumseh died during the battle. The precise circumstances of his death remain uncertain. His loss severely weakened the confederacy he had worked to build among Indigenous nations."
+      },
+      {
+        "heading": "A Lasting Turning Point",
+        "text": "The American victory strengthened U.S. control of the northwestern frontier. For Indigenous peoples, the battle marked a devastating setback in their struggle to protect their lands and political independence."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "1813-09-10",
+        "event": "The American victory at the Battle of Lake Erie undermines British control of the region."
+      },
+      {
+        "date": "1813-10-05",
+        "event": "Harrison's forces defeat British troops and their Indigenous allies at the Battle of the Thames."
+      },
+      {
+        "date": "1813-10-05",
+        "event": "Tecumseh dies in the fighting, dealing a severe blow to his Indigenous confederacy."
+      }
+    ],
+    "reelVoiceover": "October fifth, eighteen thirteen. American forces win the Battle of the Thames. Shawnee leader Tecumseh dies in the fighting.",
+    "visualDisclosure": "AI-generated historical recreation",
+    "sources": [
+      {
+        "name": "National Park Service — River Raisin History and Culture",
+        "url": "https://www.nps.gov/rira/learn/historyculture/index.htm"
+      },
+      {
+        "name": "National Park Service — Tecumseh",
+        "url": "https://www.nps.gov/pevi/learn/historyculture/tecumseh-page-4.htm"
+      },
+      {
+        "name": "American Battlefield Trust — Battle of the Thames",
+        "url": "https://www.battlefields.org/learn/war-1812/battles/battle-thames"
+      }
+    ]
+  },
+  {
+    "type": "history",
+    "title": "Carving Begins at Mount Rushmore",
+    "slug": "mount-rushmore-carving-begins-1927",
+    "category": "American History",
+    "eventDate": "1927-10-04",
+    "location": "Black Hills, South Dakota, United States",
+    "excerpt": "On October 4, 1927, workers began carving Mount Rushmore. Over fourteen years, a granite mountainside became a monumental sculpture of four American presidents.",
+    "story": [
+      {
+        "heading": "An Idea in the Black Hills",
+        "text": "South Dakota historian Doane Robinson proposed a mountain sculpture to attract visitors to the state. Sculptor Gutzon Borglum developed the project into a monument featuring presidents George Washington, Thomas Jefferson, Theodore Roosevelt, and Abraham Lincoln."
+      },
+      {
+        "heading": "The Carving Begins",
+        "text": "Actual carving began on October 4, 1927. Workers faced the challenge of removing enormous quantities of granite while shaping recognizable faces high above the ground."
+      },
+      {
+        "heading": "Working on the Mountain",
+        "text": "Crews used dynamite to remove much of the rock, followed by pneumatic drilling and careful finishing. Workers descended on cables in suspended seats to reach the carving surface."
+      },
+      {
+        "heading": "Four Presidents in Granite",
+        "text": "Borglum selected the four presidents to represent major chapters in American history. Their faces emerged gradually as construction continued through changing seasons and funding difficulties."
+      },
+      {
+        "heading": "Work Ends in 1941",
+        "text": "Gutzon Borglum died in March 1941, and his son Lincoln supervised the remaining work. The project was declared complete on October 31, 1941, although the original design had envisioned larger figures extending below the heads."
+      },
+      {
+        "heading": "A Contested Landscape",
+        "text": "The monument stands in the Black Hills, a landscape sacred to the Lakota. Its history is inseparable from the United States' seizure of these lands following the discovery of gold, despite treaty protections."
+      },
+      {
+        "heading": "An Enduring Landmark",
+        "text": "Mount Rushmore became one of America's most recognizable monuments. Its history combines extraordinary sculptural engineering with continuing questions about national memory and Indigenous land rights."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "1927-10-04",
+        "event": "Actual carving begins on Mount Rushmore."
+      },
+      {
+        "date": "1941-03-06",
+        "event": "Sculptor Gutzon Borglum dies; his son Lincoln continues supervising the project."
+      },
+      {
+        "date": "1941-10-31",
+        "event": "Work on the monument ends, and the project is declared complete."
+      }
+    ],
+    "reelVoiceover": "October fourth, nineteen twenty-seven. Carving begins at Mount Rushmore. Fourteen years later, four presidential faces stand in granite.",
+    "visualDisclosure": "AI-generated historical recreation",
+    "sources": [
+      {
+        "name": "National Park Service — Carving History",
+        "url": "https://www.nps.gov/moru/learn/historyculture/carving-history.htm"
+      },
+      {
+        "name": "National Park Service — Memorial History",
+        "url": "https://www.nps.gov/moru/learn/historyculture/memorial-history.htm"
+      },
+      {
+        "name": "National Park Service — Mount Rushmore Cultural Landscape",
+        "url": "https://www.nps.gov/articles/000/mount-rushmore-national-memorial-501080.htm"
+      }
+    ]
+  }
+]
