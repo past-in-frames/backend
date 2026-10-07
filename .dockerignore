@@ -5,3 +5,9 @@ dist
 scripts
 *.log
 *.tsbuildinfo
+**/*.py
+**/requirements*.txt
+**/__pycache__/
+.venv/
+upload/
+editorial-update/

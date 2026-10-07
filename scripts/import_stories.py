@@ -4,7 +4,7 @@
 Put the array in scripts/stories.json (or pass another file), then:
 
     python3 -m venv .venv
-    .venv/bin/pip install pymysql
+    .venv/bin/pip install -r scripts/requirements.txt
     npm run db:tunnel
     .venv/bin/python scripts/import_stories.py
 
@@ -78,7 +78,7 @@ def main() -> int:
     except ImportError:
         print(
             "pymysql is not installed. From the backend directory, run:\n"
-            "  python3 -m venv .venv && .venv/bin/pip install pymysql\n"
+            "  python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt\n"
             "  .venv/bin/python scripts/import_stories.py",
             file=sys.stderr,
         )

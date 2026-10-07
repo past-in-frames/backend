@@ -30,6 +30,28 @@ should address the MySQL container directly on port 3306.
 Schema changes are applied with `npm run db:migrate` (`prisma migrate deploy`).
 Since there is no staging copy, review the generated SQL before running it.
 
+## Deploying on Coolify
+
+The production API is the Node.js server in this repository's `Dockerfile`.
+Coolify must be told to use that file. A root `requirements.txt` makes Railpack
+build a Python image, start `/bin/bash`, and exit immediately; Traefik then
+returns `503 no available server`.
+
+In the Coolify application settings:
+
+- Build Pack: Dockerfile
+- Dockerfile location: `/Dockerfile`
+- Build context: repository root
+- `PORT=3000`
+- Ports Exposes: `3000`
+
+These are dashboard settings. Changing the repository does not switch the build
+pack. Save them, then redeploy. `npm start` runs `node dist/index.js`, which
+listens on `0.0.0.0` and uses `PORT` when it is set.
+
+Python maintenance scripts stay under `scripts/` and are not copied into the
+image. Install their dependency with `pip install -r scripts/requirements.txt`.
+
 ## Running locally
 
 ```bash
