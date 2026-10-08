@@ -110,7 +110,7 @@ adminRouter.get(
         title: true,
         summary: true,
         eventDate: true,
-        category: true,
+        type: true,
         status: true,
       },
     });

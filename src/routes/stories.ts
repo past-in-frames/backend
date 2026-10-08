@@ -15,7 +15,7 @@ const PUBLIC_CACHE = 'public, max-age=60, s-maxage=300, stale-while-revalidate=8
 
 const published = { status: 'published' as const };
 
-/** A page of the home feed or a category. Callers that need the whole set omit it. */
+/** A page of the home feed or a section. Callers that need the whole set omit it. */
 const MAX_LIMIT = 50;
 const MAX_OFFSET = 10_000;
 
@@ -36,9 +36,10 @@ function parseOffset(value: unknown) {
 storiesRouter.get(
   '/',
   asyncHandler(async (req, res) => {
-    const category = typeof req.query.category === 'string' ? req.query.category.trim() : '';
     const typeQuery = typeof req.query.type === 'string' ? req.query.type.trim() : '';
-    const type = typeQuery === 'science' || typeQuery === 'history' ? typeQuery : '';
+    const type =
+      typeQuery === 'science' || typeQuery === 'history' || typeQuery === 'other' ? typeQuery : '';
+    const excludeOther = req.query.exclude === 'other';
     const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
     const limit = parseLimit(req.query.limit);
     const offset = parseOffset(req.query.offset);
@@ -49,8 +50,9 @@ storiesRouter.get(
         : [{ eventDate: 'desc' as const }, { id: 'desc' as const }];
     const where = {
       ...published,
-      ...(category ? { category } : {}),
       ...(type ? { type } : {}),
+      // Home leaves type unset and asks to hide M&I. Null type still belongs there.
+      ...(!type && excludeOther ? { OR: [{ type: null }, { type: { not: 'other' } }] } : {}),
       ...(titleQuery ? { title: { contains: titleQuery } } : {}),
     };
 
@@ -66,7 +68,7 @@ storiesRouter.get(
           summary: true,
           eventDate: true,
           updatedAt: true,
-          category: true,
+          type: true,
           media: {
             where: { type: 'image', url: { not: null } },
             orderBy: { sortOrder: 'asc' },
@@ -85,26 +87,10 @@ storiesRouter.get(
         summary: story.summary,
         eventDate: formatDateOnly(story.eventDate),
         updatedAt: story.updatedAt.toISOString(),
-        category: story.category,
+        type: story.type,
         coverUrl: story.media[0]?.url ?? null,
         coverAlt: story.media[0]?.altText ?? null,
       })),
-    );
-  }),
-);
-
-storiesRouter.get(
-  '/categories',
-  asyncHandler(async (_req, res) => {
-    const grouped = await prisma.story.groupBy({
-      by: ['category'],
-      where: published,
-      _count: { _all: true },
-      orderBy: { category: 'asc' },
-    });
-
-    res.set('Cache-Control', PUBLIC_CACHE).json(
-      grouped.map((row) => ({ name: row.category, count: row._count._all })),
     );
   }),
 );
@@ -131,7 +117,7 @@ storiesRouter.get(
       eventDate: formatDateOnly(story.eventDate),
       publishedAt: story.publishedAt?.toISOString() ?? null,
       updatedAt: story.updatedAt.toISOString(),
-      category: story.category,
+      type: story.type,
       body: parseStoredBody(story.body),
       media: story.media.map((item) => ({
         key: item.key,

@@ -24,7 +24,6 @@ model Story {
   summary     String        @db.Text
   body        String        @db.LongText
   eventDate   DateTime      @map("event_date") @db.Date
-  category    String
   type        String?
   subtype     String?
   status      StoryStatus   @default(draft)

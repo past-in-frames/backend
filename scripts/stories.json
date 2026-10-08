@@ -1,1 +1,60 @@
-[]
+[
+  {
+    "slug": "san-francisco-market-street-before-after-1906",
+    "title": "San Francisco Before and After the 1906 Earthquake",
+    "excerpt": "Two archival views of Market Street reveal the transformation of San Francisco after the earthquake and fires of April 1906. They show different viewpoints along the same street, rather than an exact matched-angle comparison.",
+    "eventDate": "1906-04-18",
+    "type": "other",
+    "subtype": null,
+    "status": "published",
+    "story": [
+      {
+        "heading": "A Street at the Center of City Life",
+        "text": "Before the 1906 disaster, Market Street was one of San Francisco’s busiest thoroughfares. An archival stereograph looking along Market Street from Powell Street records pedestrians, streetcars, overhead wires, and substantial commercial buildings. The photograph captures the ordinary activity of a growing city before its streets became the setting for a major urban catastrophe. Although the card was published in 1906, its caption explicitly identifies the scene as a view taken before the earthquake."
+      },
+      {
+        "heading": "The Earthquake and the Fires",
+        "text": "On the morning of April 18, 1906, a powerful earthquake struck San Francisco and the surrounding region. The shaking damaged buildings and infrastructure, while fires spread through the city during the following days. The combined destruction transformed business districts and residential neighborhoods. Photographs of the aftermath therefore show the effects of both the earthquake and the subsequent fires; they cannot always establish which force destroyed an individual building."
+      },
+      {
+        "heading": "Market Street After the Disaster",
+        "text": "A second photograph, cataloged by the Library of Congress as Market Street and Turk Street after the earthquake and fire, shows damaged structures, exposed walls, scattered debris, and people moving through the devastated area. The surviving fragments of buildings make the scale of the destruction visible. The photograph is credited in its archival notes to the Pillsbury Picture Company, with a 1906 copyright."
+      },
+      {
+        "heading": "How to Read the Comparison",
+        "text": "These photographs document the same major street from different locations. The earlier scene is identified with Powell Street, while the aftermath scene is identified with Turk Street. They offer a comparison of urban life before and after the disaster, but they should not be presented as an exact reconstruction of one camera position. Street names, recognizable structures, and original catalog descriptions provide better evidence than visual resemblance alone."
+      },
+      {
+        "heading": "A Related Moving-Image Record",
+        "text": "The Miles Brothers filmed a journey down Market Street on April 14, 1906, four days before the earthquake. They later filmed the route again after the disaster. These moving images provide another way to understand the change: viewers can follow a street through daily traffic and then through its devastated surroundings. The Library of Congress describes the history of these recordings in its account of the before-and-after films."
+      },
+      {
+        "heading": "About the Illustration",
+        "text": "The accompanying comparison image is an AI-processed collage based on two archival photographs held by the Library of Congress. Its layout and some photographic details were altered during processing. It is an illustrative comparison, not an unmodified archival document or a matched-viewpoint photograph. Readers can consult the linked original records to inspect the historical images and their catalog information."
+      }
+    ],
+    "media": [],
+    "sources": [
+      {
+        "title": "Market St. from Powell St. before the earthquake",
+        "url": "https://www.loc.gov/item/89716200/",
+        "publisher": "Library of Congress"
+      },
+      {
+        "title": "Market Street and Turk Street after the earthquake and fire, San Francisco, California",
+        "url": "https://www.loc.gov/item/2003671867/",
+        "publisher": "Library of Congress"
+      },
+      {
+        "title": "The 1906 San Francisco Earthquake and Fire",
+        "url": "https://www.archives.gov/exhibits/sf-earthquake-and-fire/index.html",
+        "publisher": "National Archives"
+      },
+      {
+        "title": "A Tale of Two Films: The San Francisco Earthquake, 1906 — Before and After",
+        "url": "https://blogs.loc.gov/now-see-hear/2026/04/a-tale-of-two-films-the-san-francisco-earthquake-1906-before-and-after/",
+        "publisher": "Library of Congress"
+      }
+    ]
+  }
+]

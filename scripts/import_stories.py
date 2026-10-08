@@ -138,7 +138,6 @@ def prepare(item: object, status: str) -> dict:
     slug = text(item.get("slug"), "slug")
     title = text(item.get("title"), "title")
     summary = text(item.get("excerpt") or item.get("summary"), "excerpt")
-    category = text(item.get("category"), "category")
     event_date = parse_date(text(item.get("eventDate"), "eventDate"))
     story_type = optional_text(item.get("type"))
 
@@ -146,7 +145,6 @@ def prepare(item: object, status: str) -> dict:
         raise StoryError("slug can use lowercase letters, numbers, and hyphens")
     require_len(title, 191, "title")
     require_len(summary, 10000, "excerpt")
-    require_len(category, 191, "category")
     if story_type and len(story_type) > 191:
         raise StoryError("type is too long")
 
@@ -171,7 +169,6 @@ def prepare(item: object, status: str) -> dict:
         "summary": summary,
         "body": json.dumps(body, ensure_ascii=False),
         "event_date": event_date,
-        "category": category,
         "type": story_type,
         "status": status,
         "sources": sources,
@@ -277,7 +274,6 @@ def upsert(cursor, story: dict) -> bool:
                 summary = %s,
                 body = %s,
                 event_date = %s,
-                category = %s,
                 type = %s,
                 status = %s,
                 published_at = IF(%s = 'published', COALESCE(published_at, NOW(3)), NULL),
@@ -289,7 +285,6 @@ def upsert(cursor, story: dict) -> bool:
                 story["summary"],
                 story["body"],
                 story["event_date"],
-                story["category"],
                 story["type"],
                 story["status"],
                 story["status"],
@@ -300,11 +295,11 @@ def upsert(cursor, story: dict) -> bool:
         cursor.execute(
             """
             INSERT INTO stories (
-                slug, title, summary, body, event_date, category, type,
+                slug, title, summary, body, event_date, type,
                 status, published_at, created_at, updated_at
             )
             VALUES (
-                %s, %s, %s, %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s, %s,
                 IF(%s = 'published', NOW(3), NULL),
                 NOW(3), NOW(3)
             )
@@ -315,7 +310,6 @@ def upsert(cursor, story: dict) -> bool:
                 story["summary"],
                 story["body"],
                 story["event_date"],
-                story["category"],
                 story["type"],
                 story["status"],
                 story["status"],

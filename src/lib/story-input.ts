@@ -6,7 +6,6 @@ const storySchema = z.object({
   title: z.string(),
   summary: z.string(),
   eventDate: z.string(),
-  category: z.string(),
   status: z.enum(['draft', 'published']),
   type: z.string().nullable().optional(),
   subtype: z.string().nullable().optional(),
@@ -47,7 +46,6 @@ export type NormalizedStory = {
   title: string;
   summary: string;
   eventDate: Date;
-  category: string;
   status: 'draft' | 'published';
   type: string | null;
   subtype: string | null;
@@ -77,7 +75,6 @@ function normalizeStory(input: z.infer<typeof storySchema>): NormalizedStory {
   const slug = input.slug.trim();
   const title = input.title.trim();
   const summary = input.summary.trim();
-  const category = input.category.trim();
 
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length > 191) {
     throw badRequest('Slug can use lowercase letters, numbers, and hyphens');
@@ -87,9 +84,6 @@ function normalizeStory(input: z.infer<typeof storySchema>): NormalizedStory {
   }
   if (!summary || summary.length > 10000) {
     throw badRequest('Summary is required');
-  }
-  if (!category || category.length > 191) {
-    throw badRequest('Category is required');
   }
   if (input.body.length > 200 || input.media.length > 50 || input.sources.length > 50) {
     throw badRequest('This story has too many sections');
@@ -176,7 +170,6 @@ function normalizeStory(input: z.infer<typeof storySchema>): NormalizedStory {
     title,
     summary,
     eventDate: eventDateFromInput(input.eventDate),
-    category,
     status: input.status,
     type: optionalText(input.type),
     subtype: optionalText(input.subtype),
