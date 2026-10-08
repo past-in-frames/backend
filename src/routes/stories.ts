@@ -15,14 +15,22 @@ const PUBLIC_CACHE = 'public, max-age=60, s-maxage=300, stale-while-revalidate=8
 
 const published = { status: 'published' as const };
 
-/** The home page asks for a handful of stories; nothing needs the whole archive at once. */
+/** A page of the home feed or a category. Callers that need the whole set omit it. */
 const MAX_LIMIT = 50;
+const MAX_OFFSET = 10_000;
 
 function parseLimit(value: unknown) {
   if (typeof value !== 'string') return undefined;
   const parsed = Number.parseInt(value, 10);
   if (!Number.isInteger(parsed) || parsed < 1) return undefined;
   return Math.min(parsed, MAX_LIMIT);
+}
+
+function parseOffset(value: unknown) {
+  if (typeof value !== 'string') return 0;
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isInteger(parsed) || parsed < 1) return 0;
+  return Math.min(parsed, MAX_OFFSET);
 }
 
 storiesRouter.get(
@@ -33,38 +41,44 @@ storiesRouter.get(
     const type = typeQuery === 'science' || typeQuery === 'history' ? typeQuery : '';
     const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
     const limit = parseLimit(req.query.limit);
+    const offset = parseOffset(req.query.offset);
     // Seeded stories share a publishedAt, so id breaks the tie by insertion order.
     const orderBy =
       req.query.sort === 'latest'
         ? [{ publishedAt: 'desc' as const }, { id: 'desc' as const }]
         : [{ eventDate: 'desc' as const }, { id: 'desc' as const }];
+    const where = {
+      ...published,
+      ...(category ? { category } : {}),
+      ...(type ? { type } : {}),
+      ...(titleQuery ? { title: { contains: titleQuery } } : {}),
+    };
 
-    const stories = await prisma.story.findMany({
-      where: {
-        ...published,
-        ...(category ? { category } : {}),
-        ...(type ? { type } : {}),
-        ...(titleQuery ? { title: { contains: titleQuery } } : {}),
-      },
-      orderBy,
-      ...(limit ? { take: limit } : {}),
-      select: {
-        slug: true,
-        title: true,
-        summary: true,
-        eventDate: true,
-        updatedAt: true,
-        category: true,
-        media: {
-          where: { type: 'image', url: { not: null } },
-          orderBy: { sortOrder: 'asc' },
-          take: 1,
-          select: { url: true, altText: true },
+    const [stories, total] = await Promise.all([
+      prisma.story.findMany({
+        where,
+        orderBy,
+        ...(offset ? { skip: offset } : {}),
+        ...(limit ? { take: limit } : {}),
+        select: {
+          slug: true,
+          title: true,
+          summary: true,
+          eventDate: true,
+          updatedAt: true,
+          category: true,
+          media: {
+            where: { type: 'image', url: { not: null } },
+            orderBy: { sortOrder: 'asc' },
+            take: 1,
+            select: { url: true, altText: true },
+          },
         },
-      },
-    });
+      }),
+      prisma.story.count({ where }),
+    ]);
 
-    res.set('Cache-Control', PUBLIC_CACHE).json(
+    res.set('Cache-Control', PUBLIC_CACHE).set('X-Total-Count', String(total)).json(
       stories.map((story) => ({
         slug: story.slug,
         title: story.title,
