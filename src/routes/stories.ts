@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { Router } from 'express';
 import { asyncHandler } from '../lib/async-handler';
 import { notFound } from '../lib/http-error';
@@ -33,6 +34,62 @@ function parseOffset(value: unknown) {
   return Math.min(parsed, MAX_OFFSET);
 }
 
+const publicSorts = ['latest', 'year', 'year-asc', 'month-day', 'month-day-desc'] as const;
+type PublicSort = (typeof publicSorts)[number];
+
+function parseSort(value: unknown): PublicSort {
+  const raw = Array.isArray(value) ? value[0] : value;
+  return publicSorts.includes(raw as PublicSort) ? (raw as PublicSort) : 'month-day-desc';
+}
+
+/** Year follows the calendar date. Day & month groups the same anniversary across years. */
+function chronologicalOrder(sort: 'latest' | 'year' | 'year-asc') {
+  if (sort === 'latest') return [{ publishedAt: 'desc' as const }, { id: 'desc' as const }];
+  if (sort === 'year-asc') return [{ eventDate: 'asc' as const }, { id: 'asc' as const }];
+  return [{ eventDate: 'desc' as const }, { id: 'desc' as const }];
+}
+
+function monthDayOrder(sort: 'month-day' | 'month-day-desc') {
+  return sort === 'month-day'
+    ? Prisma.sql`MONTH(event_date) ASC, DAY(event_date) ASC, event_date DESC, id DESC`
+    : Prisma.sql`MONTH(event_date) DESC, DAY(event_date) DESC, event_date DESC, id DESC`;
+}
+
+const summarySelect = {
+  id: true,
+  slug: true,
+  title: true,
+  summary: true,
+  eventDate: true,
+  updatedAt: true,
+  type: true,
+  media: {
+    where: { type: 'image' as const, url: { not: null } },
+    orderBy: { sortOrder: 'asc' as const },
+    take: 1,
+    select: { url: true, altText: true },
+  },
+};
+
+async function idsByMonthAndDay(
+  whereSql: Prisma.Sql,
+  sort: 'month-day' | 'month-day-desc',
+  limit: number | undefined,
+  offset: number,
+) {
+  const order = monthDayOrder(sort);
+  const take = limit ?? (offset > 0 ? MAX_OFFSET + MAX_LIMIT : undefined);
+  // Limit and offset are already clamped integers. MySQL rejects them as bound parameters.
+  const rows = await prisma.$queryRaw<{ id: number }[]>`
+    SELECT id FROM stories
+    WHERE ${whereSql}
+    ORDER BY ${order}
+    ${take ? Prisma.raw(`LIMIT ${take}`) : Prisma.empty}
+    ${offset > 0 ? Prisma.raw(`OFFSET ${offset}`) : Prisma.empty}
+  `;
+  return rows.map((row) => Number(row.id));
+}
+
 storiesRouter.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -43,11 +100,7 @@ storiesRouter.get(
     const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
     const limit = parseLimit(req.query.limit);
     const offset = parseOffset(req.query.offset);
-    // Seeded stories share a publishedAt, so id breaks the tie by insertion order.
-    const orderBy =
-      req.query.sort === 'latest'
-        ? [{ publishedAt: 'desc' as const }, { id: 'desc' as const }]
-        : [{ eventDate: 'desc' as const }, { id: 'desc' as const }];
+    const sort = parseSort(req.query.sort);
     const where = {
       ...published,
       ...(type ? { type } : {}),
@@ -55,30 +108,28 @@ storiesRouter.get(
       ...(!type && excludeOther ? { OR: [{ type: null }, { type: { not: 'other' } }] } : {}),
       ...(titleQuery ? { title: { contains: titleQuery } } : {}),
     };
+    const whereSql = Prisma.join(
+      [
+        Prisma.sql`status = 'published'`,
+        ...(type ? [Prisma.sql`type = ${type}`] : []),
+        ...(!type && excludeOther ? [Prisma.sql`(type IS NULL OR type <> 'other')`] : []),
+        ...(titleQuery ? [Prisma.sql`title LIKE CONCAT('%', ${titleQuery}, '%')`] : []),
+      ],
+      ' AND ',
+    );
 
-    const [stories, total] = await Promise.all([
-      prisma.story.findMany({
-        where,
-        orderBy,
-        ...(offset ? { skip: offset } : {}),
-        ...(limit ? { take: limit } : {}),
-        select: {
-          slug: true,
-          title: true,
-          summary: true,
-          eventDate: true,
-          updatedAt: true,
-          type: true,
-          media: {
-            where: { type: 'image', url: { not: null } },
-            orderBy: { sortOrder: 'asc' },
-            take: 1,
-            select: { url: true, altText: true },
-          },
-        },
-      }),
-      prisma.story.count({ where }),
-    ]);
+    const total = await prisma.story.count({ where });
+    const stories =
+      sort === 'month-day' || sort === 'month-day-desc'
+        ? await storiesByMonthAndDay(where, whereSql, sort, limit, offset)
+        : await prisma.story.findMany({
+            where,
+            // Seeded stories share a publishedAt, so id breaks the tie by insertion order.
+            orderBy: chronologicalOrder(sort),
+            ...(offset ? { skip: offset } : {}),
+            ...(limit ? { take: limit } : {}),
+            select: summarySelect,
+          });
 
     res.set('Cache-Control', PUBLIC_CACHE).set('X-Total-Count', String(total)).json(
       stories.map((story) => ({
@@ -94,6 +145,24 @@ storiesRouter.get(
     );
   }),
 );
+
+async function storiesByMonthAndDay(
+  where: Prisma.StoryWhereInput,
+  whereSql: Prisma.Sql,
+  sort: 'month-day' | 'month-day-desc',
+  limit: number | undefined,
+  offset: number,
+) {
+  const ids = await idsByMonthAndDay(whereSql, sort, limit, offset);
+  if (ids.length === 0) return [];
+
+  const rows = await prisma.story.findMany({
+    where: { ...where, id: { in: ids } },
+    select: summarySelect,
+  });
+  const rank = new Map(ids.map((id, index) => [id, index]));
+  return rows.sort((a, b) => (rank.get(a.id) ?? 0) - (rank.get(b.id) ?? 0));
+}
 
 storiesRouter.get(
   '/:slug',
