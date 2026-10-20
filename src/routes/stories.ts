@@ -39,7 +39,24 @@ type PublicSort = (typeof publicSorts)[number];
 
 function parseSort(value: unknown): PublicSort {
   const raw = Array.isArray(value) ? value[0] : value;
-  return publicSorts.includes(raw as PublicSort) ? (raw as PublicSort) : 'month-day-desc';
+  return publicSorts.includes(raw as PublicSort) ? (raw as PublicSort) : 'year';
+}
+
+/** Calendar filters are inclusive `YYYY-MM-DD` days. Anything else is ignored. */
+function parseIsoDate(value: unknown): string | undefined {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (typeof raw !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(raw)) return undefined;
+  const [year, month, day] = raw.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
+    return undefined;
+  }
+  return raw;
+}
+
+/** Event dates are stored at noon UTC so the calendar day does not shift. */
+function utcNoon(iso: string) {
+  return new Date(`${iso}T12:00:00.000Z`);
 }
 
 /** Year follows the calendar date. Day & month groups the same anniversary across years. */
@@ -101,12 +118,23 @@ storiesRouter.get(
     const limit = parseLimit(req.query.limit);
     const offset = parseOffset(req.query.offset);
     const sort = parseSort(req.query.sort);
+    let from = parseIsoDate(req.query.from);
+    let to = parseIsoDate(req.query.to);
+    if (from && to && from > to) [from, to] = [to, from];
+    const eventDate =
+      from || to
+        ? {
+            ...(from ? { gte: utcNoon(from) } : {}),
+            ...(to ? { lte: utcNoon(to) } : {}),
+          }
+        : undefined;
     const where = {
       ...published,
       ...(type ? { type } : {}),
       // Home leaves type unset and asks to hide M&I. Null type still belongs there.
       ...(!type && excludeOther ? { OR: [{ type: null }, { type: { not: 'other' } }] } : {}),
       ...(titleQuery ? { title: { contains: titleQuery } } : {}),
+      ...(eventDate ? { eventDate } : {}),
     };
     const whereSql = Prisma.join(
       [
@@ -114,6 +142,8 @@ storiesRouter.get(
         ...(type ? [Prisma.sql`type = ${type}`] : []),
         ...(!type && excludeOther ? [Prisma.sql`(type IS NULL OR type <> 'other')`] : []),
         ...(titleQuery ? [Prisma.sql`title LIKE CONCAT('%', ${titleQuery}, '%')`] : []),
+        ...(from ? [Prisma.sql`event_date >= ${from}`] : []),
+        ...(to ? [Prisma.sql`event_date <= ${to}`] : []),
       ],
       ' AND ',
     );
