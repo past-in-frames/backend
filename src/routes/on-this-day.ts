@@ -72,6 +72,18 @@ async function storiesOnDays(
   return stories.sort((a, b) => (rank.get(a.id) ?? 0) - (rank.get(b.id) ?? 0));
 }
 
+/** Every calendar day (`MM-DD`) that has at least one published story, for the sitemap. */
+onThisDayRouter.get(
+  '/days',
+  asyncHandler(async (_req, res) => {
+    const rows = await prisma.$queryRaw<{ md: string }[]>`
+      SELECT DISTINCT DATE_FORMAT(event_date, '%m-%d') AS md FROM stories
+      WHERE status = 'published' ORDER BY md
+    `;
+    res.set('Cache-Control', PUBLIC_CACHE).json(rows.map((row) => row.md));
+  }),
+);
+
 /**
  * Everything the On This Day page shows for one calendar day: the lead story,
  * the other anniversaries of that day, and the week leading up to it.

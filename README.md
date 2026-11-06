@@ -81,6 +81,7 @@ Public responses are cacheable and only ever include stories with
 | GET    | `/api/stories`             | Filters: `type`, `topic`, `from`/`to`, `photoStory`, `video`, `q`; `sort`, `limit`, `offset` |
 | GET    | `/api/stories/random`      | One random published story (`slug`, `type`), never cached |
 | GET    | `/api/on-this-day`         | `?month=&day=&scope=all\|us\|world\|science`: lead story, same-day stories, the week before |
+| GET    | `/api/on-this-day/days`    | Calendar days (`MM-DD`) that have a published story |
 | GET    | `/api/collections`         | Published collections (`?limit=`)       |
 | GET    | `/api/collections/:slug`   | A collection with its stories           |
 | GET    | `/api/stories/:slug`       | Full story with media and sources       |

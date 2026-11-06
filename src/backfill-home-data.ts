@@ -17,15 +17,24 @@ const apply = process.argv.includes('--apply');
 const PHOTO_STORY_SLUG = 'chicago-after-fire-rebuilding-1871-1905';
 
 const US = [
-  'united states', 'u.s.', 'american', 'america', 'nasa', 'apollo', 'gemini', 'skylab', 'mariner',
-  'pioneer', 'voyager', 'surveyor', 'space shuttle', 'kennedy', 'lincoln', 'nixon', 'reagan',
-  'roosevelt', 'washington', 'philadelphia', 'new york', 'chicago', 'california', 'san francisco',
-  'texas', 'boston', 'delaware', 'alaska', 'kentucky', 'ohio', 'pennsylvania', 'virginia',
-  'yorktown', 'saratoga', 'wall street', 'congress', 'supreme court', 'senate', 'white house',
-  'florida', 'louisiana', 'wyoming', 'detroit', 'dallas', 'hollywood', 'broadway', 'seattle',
-  'alcatraz', 'pearl harbor', 'new jersey', 'milwaukee', 'montgomery', 'harpers ferry', 'menlo park',
-  'united air lines', 'pan am', 'fbi', 'federal reserve', 'hoover dam', 'rushmore', 'oklahoma',
-  'sandy hook', 'pittsburgh', 'las vegas', 'cocoanut grove', 'tacoma', 'north carolina', 'georgia tech',
+  'united states', 'u.s.', 'american', 'america', 'americans', 'nasa', 'apollo', 'new yorker', 'new yorkers', 'edison', 'samuel morse', 'eli whitney', 'farnsworth', 'stibitz', 'norman rockwell', 'lamarr', 'tunstall', 'sholes', 'wizard of oz', 'uss', 'marian anderson', 'louis slotin', 'rutgers', 'princeton', 'arlington', 'san diego', 'madoff', 'new mexico', 'near shoemaker', 'boston', 'cotton gin', 'kinetoscope', 'gemini', 'skylab', 'mariner',
+  'pioneer', 'voyager', 'surveyor', 'space shuttle', 'shuttle', 'endeavour', 'atlantis', 'challenger',
+  'spacex', 'hubble', 'mercury-atlas', 
+  'kennedy', 'lincoln', 'nixon', 'reagan', 'roosevelt', 'truman', 'eisenhower', 'clinton', 'obama',
+  'trump', 'jefferson', 'washington', 'lbj',
+  'philadelphia', 'new york', 'chicago', 'california', 'san francisco', 'los angeles', 'texas', 'boston',
+  'delaware', 'alaska', 'hawaii', 'kentucky', 'ohio', 'pennsylvania', 'virginia', 'maryland', 'georgia',
+  'florida', 'louisiana', 'wyoming', 'detroit', 'dallas', 'houston', 'seattle', 'new jersey', 'new orleans',
+  'milwaukee', 'montgomery', 'alabama', 'mississippi', 'tennessee', 'carolina', 'oklahoma', 'nevada', 'las vegas',
+  'colorado', 'arizona', 'utah', 'oregon', 'michigan', 'indiana', 'illinois', 'minnesota', 'missouri', 'kansas',
+  'pittsburgh', 'baltimore', 'atlanta', 'miami', 'cleveland', 'cincinnati', 'st. louis', 'harpers ferry',
+  'menlo park', 'hollywood', 'broadway', 'wall street', 'alcatraz', 'pearl harbor', 'manhattan', 'brooklyn',
+  'u.s. congress', 'senate', 'supreme court', 'white house', 'pentagon', 'fbi', 'cia', 'federal reserve',
+  'u.s. navy', 'u.s. army', 'marine corps', 'prohibition', 'civil war',
+  'united air lines', 'pan am', 'hoover dam', 'rushmore', 'sandy hook', 'oklahoma city', 'georgia tech',
+  'nfl', 'super bowl', 'world series', 'nba', 'yankees', 'major league', 'nascar', 'ku klux klan', 'civil rights',
+  'watergate', 'vietnam war', 'cuban missile', 'manhattan project', 'los alamos', 'bell labs',
+  'microsoft', 'intel', 'google', 'ibm', 'atari', 'disney', 'nbc', 'cbs', 'abc news', 'cnn',
 ];
 
 const WORLD = [
@@ -35,7 +44,7 @@ const WORLD = [
   'brazil', 'cuba', 'poland', 'hungary', 'ireland', 'scotland', 'vienna', 'berlin', 'jerusalem',
   'united nations', 'europe', 'asia', 'zambia', 'kenya', 'barbados', 'philippines', 'hong kong',
   'macao', 'bucharest', 'kabul', 'chechnya', 'tunisia', 'napoleon', 'europe’s', 'esa', 'ethiopia',
-  'tasmania', 'new zealand', 'peru', 'colombia', 'el salvador', 'sri lanka', 'korea', 'vietnam',
+  'tasmania', 'new zealand', 'nigerian', 'nigeria', 'biafra', 'quit india', 'indian national congress', 'peru', 'colombia', 'el salvador', 'sri lanka', 'korea', 'vietnam',
 ];
 
 const SPACE =
@@ -43,22 +52,27 @@ const SPACE =
 const SCIENCE_OTHER =
   /\b(x-rays?|transplant|heart|smallpox|lsd|darwin|origin of species|einstein|radium|transistor|microprocessor|chain reaction|nuclear|thermonuclear|ivf|fossil|lucy|piltdown|aids|bird flu|ether|metre|speed of light|world wide web|arpanet|computing|sms|text message|endangered species|jarvik|wright brothers|flight|aircraft|boeing|concorde|tu-144|hurricane prototype|automobile|patent|telegraph|phonograph|marconi|cinématographe|edison|electric|ozone)\b/i;
 const PEOPLE =
-  /\b(dies|death|born|assassinat\w*|murder\w*|killed|executed|execution|elected|crowned|marries|resigns|arrested|captured|convicted|sentenced|nobel|abdication|napoleon|lincoln|kennedy|king jr|mother teresa|einstein|edison|houdini|chaplin|mozart|beethoven|darwin|marie antoinette|mata hari|capone|ali wins|tyson|magic johnson|schwarzenegger|obama|trump|nellie bly|rosa parks|anthony|lennon|milk|saddam|thatcher|gorbachev|reagan|roosevelt|yeager|glenn|lucid|ceaușescu|hampton|blackbeard|livingstone|tutankhamun|magellan|drake|tasman|amundsen|byrd|carter|hirohito|disney|elizabeth|madoff|eichmann|dreyfus|capone|jackson|larsen|york|nobel|bouazizi|bell|engelbart|schwarzenegger|ruby|oswald|cooper|ramsey|becket|charlemagne|william the conqueror|luther|brown|garnerin|rozier|houdini)\b/i;
+  /\b(president|king|queen|emperor|empress|prime minister|pope|astronaut|cosmonaut|general|admiral|premier|chancellor|senator|governor|sultan|tsar|czar|leader|dictator|composer|author|singer|painter|scientist|physicist|chemist|explorer|aviator|pilot|dies|death|born|assassinat\w*|murder\w*|killed|executed|execution|elected|crowned|marries|resigns|arrested|captured|convicted|sentenced|nobel|abdication|napoleon|lincoln|kennedy|king jr|mother teresa|einstein|edison|houdini|chaplin|mozart|beethoven|darwin|marie antoinette|mata hari|capone|ali wins|tyson|magic johnson|schwarzenegger|obama|trump|nellie bly|rosa parks|anthony|lennon|milk|saddam|thatcher|gorbachev|reagan|roosevelt|yeager|glenn|lucid|ceaușescu|hampton|blackbeard|livingstone|tutankhamun|magellan|drake|tasman|amundsen|byrd|carter|hirohito|disney|elizabeth|madoff|eichmann|dreyfus|capone|jackson|larsen|york|nobel|bouazizi|bell|engelbart|schwarzenegger|ruby|oswald|cooper|ramsey|becket|charlemagne|william the conqueror|luther|brown|garnerin|rozier|houdini)\b/i;
 const PLACES =
-  /\b(bridge|canal|tower|dam|observatory|cathedral|monument|statue|arch|theatre|theater|hall|palace|hotel|wall|tunnel|subway|opera house|guggenheim|chapel|earthquake|tsunami|eruption|erupts|fire|island|bay|capital|harbor|station|mountain|rushmore|alcatraz|south pole|panama|suez|lisbon|chicago|jerusalem|bethlehem|hong kong|macao|delhi|nanjing|bucharest|tasmania|new zealand|grenada|saint helena|moscow|trafalgar|el alamein|stalingrad|gettysburg|trenton|pisa|gander|lockerbie|bhopal|beirut|ottawa|mogadishu|sitka|san diego)\b/i;
+  /\b(city|town|village|river|sea|ocean|lake|desert|peninsula|border|airport|port|building|tower|museum|theater|stadium|cathedral|church|mosque|temple|bridge|canal|tower|dam|observatory|cathedral|monument|statue|arch|theatre|theater|hall|palace|hotel|wall|tunnel|subway|opera house|guggenheim|chapel|earthquake|tsunami|eruption|erupts|fire|island|bay|capital|harbor|station|mountain|rushmore|alcatraz|south pole|panama|suez|lisbon|chicago|jerusalem|bethlehem|hong kong|macao|delhi|nanjing|bucharest|tasmania|new zealand|grenada|saint helena|moscow|trafalgar|el alamein|stalingrad|gettysburg|trenton|pisa|gander|lockerbie|bhopal|beirut|ottawa|mogadishu|sitka|san diego)\b/i;
 const ERAS =
   /\b(war|battle|revolution|revolt|uprising|treaty|armistice|empire|empress|emperor|siege|crisis|reformation|prohibition|depression|crash|cold war|summit|independence|republic|coup|putsch|secession|abdication|partition|occupation|invasion|landings?|offensive|massacre|genocide|nazi|soviet|bolshevik|apartheid|accession|declaration|constitution|monarchy|exile|retreat|surrender|conquer\w*)\b/i;
 
+/** Counts the terms that appear as whole words, so "cia" does not match "Association". */
 function score(text: string, terms: string[]) {
   const lower = text.toLowerCase();
-  return terms.reduce((sum, term) => sum + (lower.includes(term) ? 1 : 0), 0);
+  return terms.reduce((sum, term) => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return sum + (new RegExp(`(?<![a-z])${escaped}(?![a-z])`).test(lower) ? 1 : 0);
+  }, 0);
 }
 
 function regionOf(title: string, summary: string): 'us' | 'world' {
   // The title says where it happened more reliably than the summary does.
   const us = score(title, US) * 3 + score(summary, US);
   const world = score(title, WORLD) * 3 + score(summary, WORLD);
-  return us > world ? 'us' : 'world';
+  // A story that names a U.S. actor or place in its title and a foreign one too is told from the U.S. side.
+  return us >= world && us > 0 ? 'us' : 'world';
 }
 
 function topicsOf(story: { title: string; type: string | null; year: number }) {
@@ -134,7 +148,12 @@ async function main() {
     ...c,
     stories: stories.filter((s) => c.match(s.title)).map((s) => s.slug),
   }));
-  for (const c of collectionPlans) console.log(`collection ${c.slug}: ${c.stories.length} stories`);
+  for (const c of collectionPlans) {
+    const existing = await prisma.collection.findUnique({ where: { slug: c.slug }, select: { stories: { select: { storyId: true } } } });
+    const have = new Set((existing?.stories ?? []).map((link) => link.storyId));
+    const fresh = c.stories.filter((slug) => !have.has(stories.find((s) => s.slug === slug)?.id ?? -1)).length;
+    console.log(`collection ${c.slug}: ${c.stories.length} match | ${existing ? `exists with ${have.size}, would add ${fresh}` : 'new'}`);
+  }
 
   const hasPhoto = stories.some((s) => s.isPhotoStory);
   const photo = stories.find((s) => s.slug === PHOTO_STORY_SLUG);
@@ -146,6 +165,10 @@ async function main() {
       const t = topicsOf({ title: s.title, type: s.type, year: s.eventDate.getUTCFullYear() });
       console.log(`${regionOf(s.title, s.summary).padEnd(5)} ${t.join(',').padEnd(26)} ${s.title}`);
     }
+  }
+
+  if (process.argv.includes('--list-us')) {
+    for (const w of regionWrites.filter((r) => r.region === 'us')) console.log('US |', stories.find((x) => x.id === w.id)?.title);
   }
 
   if (!apply) return;
@@ -160,16 +183,30 @@ async function main() {
 
   const idBySlug = new Map(stories.map((s) => [s.slug, s.id]));
   for (const c of collectionPlans) {
-    if (await prisma.collection.findUnique({ where: { slug: c.slug }, select: { id: true } })) {
-      console.log(`collection ${c.slug} exists, left alone`);
+    const existing = await prisma.collection.findUnique({
+      where: { slug: c.slug },
+      select: { id: true, stories: { select: { storyId: true, sortOrder: true } } },
+    });
+
+    if (!existing) {
+      await prisma.collection.create({
+        data: {
+          slug: c.slug, title: c.title, description: c.description, status: 'published', sortOrder: c.sortOrder,
+          stories: { create: c.stories.map((slug, index) => ({ storyId: idBySlug.get(slug) as number, sortOrder: index })) },
+        },
+      });
       continue;
     }
-    await prisma.collection.create({
-      data: {
-        slug: c.slug, title: c.title, description: c.description, status: 'published', sortOrder: c.sortOrder,
-        stories: { create: c.stories.map((slug, index) => ({ storyId: idBySlug.get(slug) as number, sortOrder: index })) },
-      },
-    });
+
+    // The collection exists: keep it as it is and only add matching stories it does not have yet.
+    const have = new Set(existing.stories.map((link) => link.storyId));
+    let next = existing.stories.reduce((max, link) => Math.max(max, link.sortOrder), -1) + 1;
+    const additions = c.stories
+      .map((slug) => idBySlug.get(slug) as number)
+      .filter((id) => !have.has(id))
+      .map((storyId) => ({ collectionId: existing.id, storyId, sortOrder: next++ }));
+    if (additions.length) await prisma.collectionStory.createMany({ data: additions, skipDuplicates: true });
+    console.log(`collection ${c.slug}: added ${additions.length} new stories`);
   }
   console.log('done');
 }
