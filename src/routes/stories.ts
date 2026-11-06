@@ -5,6 +5,7 @@ import { notFound } from '../lib/http-error';
 import { prisma } from '../lib/prisma';
 import { param } from '../lib/request';
 import { summarySelect, toSummary } from '../lib/story-summary';
+import { matchingTitleIds } from '../lib/title-search';
 import { formatDateOnly, parseStoredBody } from '../lib/story-view';
 import { STORY_TOPICS, type StoryTopicName } from '../lib/story-input';
 
@@ -118,12 +119,14 @@ storiesRouter.get(
             ...(to ? { lte: utcNoon(to) } : {}),
           }
         : undefined;
+    // Full-text match on the title alone; null means "use LIKE" (see lib/title-search.ts).
+    const titleIds = titleQuery ? await matchingTitleIds(titleQuery) : null;
     const where = {
       ...published,
       ...(type ? { type } : {}),
       // Home leaves type unset and asks to hide M&I. Null type still belongs there.
       ...(!type && excludeOther ? { OR: [{ type: null }, { type: { not: 'other' } }] } : {}),
-      ...(titleQuery ? { title: { contains: titleQuery } } : {}),
+      ...(titleQuery ? (titleIds ? { id: { in: titleIds } } : { title: { contains: titleQuery } }) : {}),
       ...(eventDate ? { eventDate } : {}),
       // Science is its own section too, so both ways of being Science count.
       ...(topic === 'science'
@@ -139,7 +142,15 @@ storiesRouter.get(
         Prisma.sql`status = 'published'`,
         ...(type ? [Prisma.sql`type = ${type}`] : []),
         ...(!type && excludeOther ? [Prisma.sql`(type IS NULL OR type <> 'other')`] : []),
-        ...(titleQuery ? [Prisma.sql`title LIKE CONCAT('%', ${titleQuery}, '%')`] : []),
+        ...(titleQuery
+          ? [
+              titleIds
+                ? titleIds.length > 0
+                  ? Prisma.sql`id IN (${Prisma.join(titleIds)})`
+                  : Prisma.sql`1 = 0`
+                : Prisma.sql`title LIKE CONCAT('%', ${titleQuery}, '%')`,
+            ]
+          : []),
         ...(from ? [Prisma.sql`event_date >= ${from}`] : []),
         ...(to ? [Prisma.sql`event_date <= ${to}`] : []),
         ...(topic === 'science'
@@ -161,7 +172,9 @@ storiesRouter.get(
 
     const total = await prisma.story.count({ where });
     const stories =
-      sort === 'month-day' || sort === 'month-day-desc'
+      withVideo && sort === 'latest'
+        ? await storiesByNewestVideo(where, limit, offset)
+        : sort === 'month-day' || sort === 'month-day-desc'
         ? await storiesByMonthAndDay(where, whereSql, sort, limit, offset)
         : await prisma.story.findMany({
             where,
@@ -202,6 +215,26 @@ storiesRouter.get(
     res.set('Cache-Control', 'no-store').json(story);
   }),
 );
+
+/** Watch lists the newest video first, whichever story it belongs to (a later video row is a newer video). */
+async function storiesByNewestVideo(where: Prisma.StoryWhereInput, limit: number | undefined, offset: number) {
+  const take = limit ?? MAX_OFFSET + MAX_LIMIT;
+  const rows = await prisma.$queryRaw<{ id: number }[]>`
+    SELECT s.id FROM stories s
+    JOIN story_media m ON m.story_id = s.id AND m.type = 'video' AND m.url IS NOT NULL
+    WHERE s.status = 'published'
+    GROUP BY s.id
+    ORDER BY MAX(m.id) DESC
+    ${Prisma.raw(`LIMIT ${take}`)}
+    ${offset > 0 ? Prisma.raw(`OFFSET ${offset}`) : Prisma.empty}
+  `;
+  const ids = rows.map((row) => Number(row.id));
+  if (ids.length === 0) return [];
+
+  const found = await prisma.story.findMany({ where: { ...where, id: { in: ids } }, select: summarySelect });
+  const rank = new Map(ids.map((id, index) => [id, index]));
+  return found.sort((a, b) => (rank.get(a.id) ?? 0) - (rank.get(b.id) ?? 0));
+}
 
 async function storiesByMonthAndDay(
   where: Prisma.StoryWhereInput,

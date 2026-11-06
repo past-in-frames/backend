@@ -42,6 +42,8 @@ model Story {
   @@index([eventDate], map: "stories_event_date_idx")
   @@index([status], map: "stories_status_idx")
   @@index([title], map: "stories_title_idx")
+  /// Word and prefix search over titles only (see GET /api/stories?q=).
+  @@fulltext([title], map: "stories_title_fulltext")
   @@map("stories")
 }
 
