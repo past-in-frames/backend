@@ -81,7 +81,12 @@ function longestSharedRun(story: string[], source: string[]) {
   return null;
 }
 
-async function checkStory(item: Item, day: string, existing: Set<string>, seenSlugs: Set<string>): Promise<Report> {
+const STOP = new Set(['the', 'and', 'for', 'with', 'from', 'into', 'over', 'after', 'its', 'his', 'her', 'are', 'was', 'is', 'in', 'on', 'of', 'to', 'a', 'an', 'at', 'by']);
+const keywords = (text: string) => new Set(text.toLowerCase().match(/[a-z0-9']+/g)?.filter((word) => word.length > 2 && !STOP.has(word)) ?? []);
+
+type Existing = { slugs: Set<string>; byDate: Map<string, { slug: string; title: string }[]> };
+
+async function checkStory(item: Item, day: string, existing: Existing, seenSlugs: Set<string>): Promise<Report> {
   const report: Report = { errors: [], warnings: [] };
   const fail = (message: string) => report.errors.push(message);
   const warn = (message: string) => report.warnings.push(message);
@@ -106,7 +111,15 @@ async function checkStory(item: Item, day: string, existing: Set<string>, seenSl
   if (iso.slice(5) !== day) fail(`eventDate ${iso} is not on ${day}`);
   if (seenSlugs.has(story.slug)) fail(`slug "${story.slug}" appears twice in this batch`);
   seenSlugs.add(story.slug);
-  if (existing.has(story.slug)) fail(`slug "${story.slug}" already exists in the database`);
+  if (existing.slugs.has(story.slug)) fail(`slug "${story.slug}" already exists in the database`);
+  // The same event can sit in the database under another slug, so compare stories of the same date by title words.
+  for (const other of existing.byDate.get(iso) ?? []) {
+    const mine = keywords(story.title);
+    const shared = [...keywords(other.title)].filter((word) => mine.has(word));
+    const message = `a story from ${iso} already exists: ${other.slug} ("${other.title}")`;
+    if (shared.length >= 2) fail(`likely duplicate: ${message}`);
+    else warn(`${message}; check that it is a different event`);
+  }
   if (story.summary.length > 320) warn(`summary is ${story.summary.length} characters`);
 
   const paragraphs = story.body.flatMap((block) => (block.type === 'paragraph' ? [block.text] : []));
@@ -193,8 +206,12 @@ async function main() {
   const items = JSON.parse(readFileSync(path, 'utf8')) as Item[];
   if (!Array.isArray(items)) throw new Error('The batch must be a JSON array');
 
-  const rows = await prisma.story.findMany({ select: { slug: true } });
-  const existing = new Set(rows.map((row) => row.slug));
+  const rows = await prisma.story.findMany({ select: { slug: true, title: true, eventDate: true } });
+  const existing: Existing = { slugs: new Set(rows.map((row) => row.slug)), byDate: new Map() };
+  for (const row of rows) {
+    const key = row.eventDate.toISOString().slice(0, 10);
+    existing.byDate.set(key, [...(existing.byDate.get(key) ?? []), { slug: row.slug, title: row.title }]);
+  }
   const seen = new Set<string>();
 
   let errors = 0;

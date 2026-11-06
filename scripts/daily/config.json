@@ -21,7 +21,7 @@
   "types": {
     "_note": "At least one story per day from each of these in rotation; with 10 stories and 14 types, continue the rotation from the day before (day of year modulo the list).",
     "list": [
-      "history", "politics", "war", "science", "space", "technology", "medicine",
+      "history", "politics", "war", "crime", "science", "space", "technology", "medicine",
       "nature", "exploration", "sport", "art", "music", "film", "other"
     ]
   },

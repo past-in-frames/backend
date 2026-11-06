@@ -7,6 +7,7 @@ export const STORY_TYPES = [
   'history',
   'politics',
   'war',
+  'crime',
   'science',
   'space',
   'technology',
