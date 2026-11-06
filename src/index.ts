@@ -2,6 +2,7 @@ import compression from 'compression';
 import cors from 'cors';
 import express, { type NextFunction, type Request, type Response } from 'express';
 import { env, errorMessage } from './lib/env';
+import { cacheResponses } from './middleware/response-cache';
 import { HttpError } from './lib/http-error';
 import { prisma } from './lib/prisma';
 import { startYoutubeSync } from './lib/youtube-sync';
@@ -23,10 +24,12 @@ app.use(cors({ origin: env.frontendOrigins }));
 app.use(express.json({ limit: '1mb' }));
 
 app.use('/api/health', healthRouter);
-app.use('/api/stories', storiesRouter);
-app.use('/api/on-this-day', onThisDayRouter);
-app.use('/api/collections', collectionsRouter);
-app.use('/api/sitemap', sitemapRouter);
+// Public, read-only data: repeated requests are answered from memory for a minute.
+const publicCache = cacheResponses();
+app.use('/api/stories', publicCache, storiesRouter);
+app.use('/api/on-this-day', publicCache, onThisDayRouter);
+app.use('/api/collections', publicCache, collectionsRouter);
+app.use('/api/sitemap', publicCache, sitemapRouter);
 app.use('/api/admin', adminRouter);
 
 app.use((_req, res) => {

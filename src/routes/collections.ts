@@ -21,31 +21,50 @@ collectionsRouter.get(
     const parsed = Number.parseInt(typeof req.query.limit === 'string' ? req.query.limit : '', 10);
     const limit = Number.isInteger(parsed) && parsed > 0 ? Math.min(parsed, MAX_LIMIT) : undefined;
 
+    // A card needs a title, a count and one picture, so it does not load every story
+    // in the collection: the database counts them and finds the first story with a picture.
     const collections = await prisma.collection.findMany({
       where: { status: 'published' },
       orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
       ...(limit ? { take: limit } : {}),
-      include: {
+      select: {
+        slug: true,
+        title: true,
+        description: true,
+        coverUrl: true,
+        _count: { select: { stories: { where: { story: { status: 'published' } } } } },
+        // The first story of the collection that has a picture, found by the database.
         stories: {
-          ...publishedStories,
-          include: { story: { select: summarySelect } },
+          where: { story: { status: 'published', media: { some: { type: 'image', url: { not: null } } } } },
+          orderBy: publishedStories.orderBy,
+          take: 1,
+          select: {
+            story: {
+              select: {
+                media: {
+                  where: { type: 'image', url: { not: null } },
+                  orderBy: { sortOrder: 'asc' },
+                  take: 1,
+                  select: { url: true },
+                },
+              },
+            },
+          },
         },
       },
     });
 
     res.set('Cache-Control', PUBLIC_CACHE).json(
-      collections.map((collection) => {
-        const firstCover = collection.stories
-          .map((link) => toSummary(link.story).coverUrl)
-          .find((url) => url);
-        return {
-          slug: collection.slug,
-          title: collection.title,
-          description: collection.description,
-          coverUrl: collection.coverUrl ?? firstCover ?? null,
-          storyCount: collection.stories.length,
-        };
-      }),
+      collections.map((collection) => ({
+        slug: collection.slug,
+        title: collection.title,
+        description: collection.description,
+        coverUrl:
+          collection.coverUrl ??
+          collection.stories.map((link) => link.story.media[0]?.url).find((url) => url) ??
+          null,
+        storyCount: collection._count.stories,
+      })),
     );
   }),
 );
