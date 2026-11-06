@@ -1,7 +1,6 @@
 /**
- * Every value a story's `type` can have. Each one is a public section on the site
- * (`other` is shown as `/others`). Keep this list in step with
- * `frontend/src/lib/story-path.ts`.
+ * Every value a story's `type` can have. Each one is a public section on the site, at
+ * `/<type>`. Keep this list in step with `frontend/src/lib/story-path.ts`.
  */
 export const STORY_TYPES = [
   'history',
@@ -18,7 +17,6 @@ export const STORY_TYPES = [
   'art',
   'music',
   'film',
-  'other',
 ] as const;
 
 export type StoryType = (typeof STORY_TYPES)[number];

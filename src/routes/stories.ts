@@ -100,7 +100,6 @@ storiesRouter.get(
   asyncHandler(async (req, res) => {
     const typeQuery = typeof req.query.type === 'string' ? req.query.type.trim() : '';
     const type = isStoryType(typeQuery) ? typeQuery : '';
-    const excludeOther = req.query.exclude === 'other';
     const topicQuery = typeof req.query.topic === 'string' ? req.query.topic.trim() : '';
     const topic = STORY_TOPICS.includes(topicQuery as StoryTopicName) ? topicQuery : '';
     const photoStory = req.query.photoStory === 'true';
@@ -124,8 +123,6 @@ storiesRouter.get(
     const where = {
       ...published,
       ...(type ? { type } : {}),
-      // Home leaves type unset and asks to hide M&I. Null type still belongs there.
-      ...(!type && excludeOther ? { OR: [{ type: null }, { type: { not: 'other' } }] } : {}),
       ...(titleQuery ? (titleIds ? { id: { in: titleIds } } : { title: { contains: titleQuery } }) : {}),
       ...(eventDate ? { eventDate } : {}),
       // Science is its own section too, so both ways of being Science count.
@@ -141,7 +138,6 @@ storiesRouter.get(
       [
         Prisma.sql`status = 'published'`,
         ...(type ? [Prisma.sql`type = ${type}`] : []),
-        ...(!type && excludeOther ? [Prisma.sql`(type IS NULL OR type <> 'other')`] : []),
         ...(titleQuery
           ? [
               titleIds
