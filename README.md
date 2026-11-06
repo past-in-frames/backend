@@ -30,6 +30,16 @@ should address the MySQL container directly on port 3306.
 Schema changes are applied with `npm run db:migrate` (`prisma migrate deploy`).
 Since there is no staging copy, review the generated SQL before running it.
 
+After the `home_redesign` migration, fill the new fields for existing stories
+(region, topics, the photo story, three starter collections):
+
+```bash
+npm run db:backfill-home            # dry run, prints what it would write
+npm run db:backfill-home -- --apply # writes it; never overwrites what editors set
+```
+
+The rules are keyword guesses, so skim the result in the admin afterwards.
+
 ## Deploying on Coolify
 
 The production API is the Node.js server in this repository's `Dockerfile`.
@@ -68,8 +78,11 @@ Public responses are cacheable and only ever include stories with
 | Method | Path                       | Notes                                   |
 | ------ | -------------------------- | --------------------------------------- |
 | GET    | `/api/health`              | Reports `503` when the database is down |
-| GET    | `/api/stories`             | Optional `?category=` filter            |
-| GET    | `/api/stories/categories`  | Published categories with counts        |
+| GET    | `/api/stories`             | Filters: `type`, `topic`, `from`/`to`, `photoStory`, `video`, `q`; `sort`, `limit`, `offset` |
+| GET    | `/api/stories/random`      | One random published story (`slug`, `type`), never cached |
+| GET    | `/api/on-this-day`         | `?month=&day=&scope=all\|us\|world\|science`: lead story, same-day stories, the week before |
+| GET    | `/api/collections`         | Published collections (`?limit=`)       |
+| GET    | `/api/collections/:slug`   | A collection with its stories           |
 | GET    | `/api/stories/:slug`       | Full story with media and sources       |
 | POST   | `/api/admin/login`         | Rate limited, returns a session token   |
 | POST   | `/api/admin/logout`        | Revokes the current session             |
@@ -77,7 +90,8 @@ Public responses are cacheable and only ever include stories with
 | POST   | `/api/admin/stories`       | Create                                  |
 | PUT    | `/api/admin/stories/:slug` | Replace                                 |
 | DELETE | `/api/admin/stories/:slug` | Delete                                  |
-| POST   | `/api/admin/uploads`       | Multipart image upload to S3            |
+| GET/POST/PUT/DELETE | `/api/admin/collections[/:slug]` | Manage collections         |
+| POST   | `/api/admin/uploads`       | Multipart image upload to S3 (re-encoded to WebP ≤200 KB) |
 
 Admin routes expect `Authorization: Bearer <token>`; sessions last 12 hours and
 only their SHA-256 hash is stored.

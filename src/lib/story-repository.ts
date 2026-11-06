@@ -5,6 +5,7 @@ import type { NormalizedStory } from './story-input';
 import { formatDateOnly, parseStoredBody } from './story-view';
 
 const storyDetail = {
+  topics: { orderBy: { topic: 'asc' } },
   media: { orderBy: { sortOrder: 'asc' } },
   sources: { orderBy: { id: 'asc' } },
 } satisfies Prisma.StoryInclude;
@@ -53,6 +54,9 @@ export async function readStoryForAdmin(slug: string) {
     status: story.status,
     type: story.type ?? '',
     subtype: story.subtype ?? '',
+    region: story.region ?? '',
+    topics: story.topics.map((item) => item.topic),
+    isPhotoStory: story.isPhotoStory,
     body,
     media,
     sources: story.sources.map((source) => ({
@@ -81,6 +85,8 @@ export async function writeStory(
     eventDate: input.eventDate,
     type: input.type,
     subtype: input.subtype,
+    region: input.region,
+    isPhotoStory: input.isPhotoStory,
     status: input.status,
     publishedAt,
   };
@@ -94,6 +100,13 @@ export async function writeStory(
 
         await tx.storyMedia.deleteMany({ where: { storyId: story.id } });
         await tx.storySource.deleteMany({ where: { storyId: story.id } });
+        await tx.storyTopic.deleteMany({ where: { storyId: story.id } });
+
+        if (input.topics.length > 0) {
+          await tx.storyTopic.createMany({
+            data: input.topics.map((topic) => ({ storyId: story.id, topic })),
+          });
+        }
 
         if (input.media.length > 0) {
           await tx.storyMedia.createMany({

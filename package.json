@@ -11,6 +11,7 @@
     "db:tunnel:status": "./scripts/db-tunnel.sh status",
     "db:check": "tsx src/check-db.ts",
     "db:migrate": "prisma migrate deploy",
+    "db:backfill-home": "tsx src/backfill-home-data.ts",
     "db:studio": "prisma studio",
     "admin:password": "tsx src/set-admin-password.ts",
     "prisma:generate": "prisma generate",
@@ -25,6 +26,7 @@
     "express": "^5.1.0",
     "multer": "^2.4.0",
     "prisma": "^6.16.2",
+    "sharp": "^0.35.5",
     "zod": "^4.1.11"
   },
   "devDependencies": {

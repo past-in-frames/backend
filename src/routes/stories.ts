@@ -4,7 +4,9 @@ import { asyncHandler } from '../lib/async-handler';
 import { notFound } from '../lib/http-error';
 import { prisma } from '../lib/prisma';
 import { param } from '../lib/request';
+import { summarySelect, toSummary } from '../lib/story-summary';
 import { formatDateOnly, parseStoredBody } from '../lib/story-view';
+import { STORY_TOPICS, type StoryTopicName } from '../lib/story-input';
 
 export const storiesRouter = Router();
 
@@ -72,22 +74,6 @@ function monthDayOrder(sort: 'month-day' | 'month-day-desc') {
     : Prisma.sql`MONTH(event_date) DESC, DAY(event_date) DESC, event_date DESC, id DESC`;
 }
 
-const summarySelect = {
-  id: true,
-  slug: true,
-  title: true,
-  summary: true,
-  eventDate: true,
-  updatedAt: true,
-  type: true,
-  media: {
-    where: { type: 'image' as const, url: { not: null } },
-    orderBy: { sortOrder: 'asc' as const },
-    take: 1,
-    select: { url: true, altText: true },
-  },
-};
-
 async function idsByMonthAndDay(
   whereSql: Prisma.Sql,
   sort: 'month-day' | 'month-day-desc',
@@ -114,6 +100,10 @@ storiesRouter.get(
     const type =
       typeQuery === 'science' || typeQuery === 'history' || typeQuery === 'other' ? typeQuery : '';
     const excludeOther = req.query.exclude === 'other';
+    const topicQuery = typeof req.query.topic === 'string' ? req.query.topic.trim() : '';
+    const topic = STORY_TOPICS.includes(topicQuery as StoryTopicName) ? topicQuery : '';
+    const photoStory = req.query.photoStory === 'true';
+    const withVideo = req.query.video === 'true';
     const titleQuery = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 191) : '';
     const limit = parseLimit(req.query.limit);
     const offset = parseOffset(req.query.offset);
@@ -135,6 +125,14 @@ storiesRouter.get(
       ...(!type && excludeOther ? { OR: [{ type: null }, { type: { not: 'other' } }] } : {}),
       ...(titleQuery ? { title: { contains: titleQuery } } : {}),
       ...(eventDate ? { eventDate } : {}),
+      // Science is its own section too, so both ways of being Science count.
+      ...(topic === 'science'
+        ? { AND: [{ OR: [{ type: 'science' }, { topics: { some: { topic } } }] }] }
+        : topic
+          ? { topics: { some: { topic } } }
+          : {}),
+      ...(photoStory ? { isPhotoStory: true } : {}),
+      ...(withVideo ? { media: { some: { type: 'video' as const, url: { not: null } } } } : {}),
     };
     const whereSql = Prisma.join(
       [
@@ -144,6 +142,19 @@ storiesRouter.get(
         ...(titleQuery ? [Prisma.sql`title LIKE CONCAT('%', ${titleQuery}, '%')`] : []),
         ...(from ? [Prisma.sql`event_date >= ${from}`] : []),
         ...(to ? [Prisma.sql`event_date <= ${to}`] : []),
+        ...(topic === 'science'
+          ? [
+              Prisma.sql`(type = 'science' OR id IN (SELECT story_id FROM story_topics WHERE topic = 'science'))`,
+            ]
+          : topic
+            ? [Prisma.sql`id IN (SELECT story_id FROM story_topics WHERE topic = ${topic})`]
+            : []),
+        ...(photoStory ? [Prisma.sql`is_photo_story = 1`] : []),
+        ...(withVideo
+          ? [
+              Prisma.sql`id IN (SELECT story_id FROM story_media WHERE type = 'video' AND url IS NOT NULL)`,
+            ]
+          : []),
       ],
       ' AND ',
     );
@@ -161,18 +172,34 @@ storiesRouter.get(
             select: summarySelect,
           });
 
-    res.set('Cache-Control', PUBLIC_CACHE).set('X-Total-Count', String(total)).json(
-      stories.map((story) => ({
-        slug: story.slug,
-        title: story.title,
-        summary: story.summary,
-        eventDate: formatDateOnly(story.eventDate),
-        updatedAt: story.updatedAt.toISOString(),
-        type: story.type,
-        coverUrl: story.media[0]?.url ?? null,
-        coverAlt: story.media[0]?.altText ?? null,
-      })),
-    );
+    res
+      .set('Cache-Control', PUBLIC_CACHE)
+      .set('X-Total-Count', String(total))
+      .json(stories.map(toSummary));
+  }),
+);
+
+/** A random published story, for "Surprise me". Never cached, or everyone would get the same one. */
+storiesRouter.get(
+  '/random',
+  asyncHandler(async (_req, res) => {
+    const where = { ...published, type: { not: null } };
+    const count = await prisma.story.count({ where });
+    if (count === 0) {
+      throw notFound('No stories yet');
+    }
+
+    const story = await prisma.story.findFirst({
+      where,
+      orderBy: { id: 'asc' },
+      skip: Math.floor(Math.random() * count),
+      select: { slug: true, type: true },
+    });
+    if (!story) {
+      throw notFound('No stories yet');
+    }
+
+    res.set('Cache-Control', 'no-store').json(story);
   }),
 );
 

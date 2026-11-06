@@ -1,6 +1,12 @@
 import { z } from 'zod';
 import { badRequest } from './http-error';
 
+/** Topics a story can be filed under besides its section. A story is also Science when its section is Science. */
+export const STORY_TOPICS = ['people', 'places', 'eras', 'science'] as const;
+export type StoryTopicName = (typeof STORY_TOPICS)[number];
+
+export const STORY_REGIONS = ['us', 'world'] as const;
+
 const storySchema = z.object({
   slug: z.string(),
   title: z.string(),
@@ -9,6 +15,9 @@ const storySchema = z.object({
   status: z.enum(['draft', 'published']),
   type: z.string().nullable().optional(),
   subtype: z.string().nullable().optional(),
+  region: z.string().nullable().optional(),
+  topics: z.array(z.string()).optional(),
+  isPhotoStory: z.boolean().optional(),
   body: z.array(
     z.object({
       type: z.enum(['paragraph', 'heading', 'image']),
@@ -49,6 +58,9 @@ export type NormalizedStory = {
   status: 'draft' | 'published';
   type: string | null;
   subtype: string | null;
+  region: (typeof STORY_REGIONS)[number] | null;
+  topics: StoryTopicName[];
+  isPhotoStory: boolean;
   body: StoryBodyBlock[];
   media: {
     key: string;
@@ -165,6 +177,17 @@ function normalizeStory(input: z.infer<typeof storySchema>): NormalizedStory {
     throw badRequest('Source URLs must be unique');
   }
 
+  const regionText = optionalText(input.region);
+  if (regionText && !STORY_REGIONS.includes(regionText as (typeof STORY_REGIONS)[number])) {
+    throw badRequest('Region must be U.S. or World');
+  }
+  const topics = [...new Set((input.topics ?? []).map((topic) => topic.trim()))];
+  for (const topic of topics) {
+    if (!STORY_TOPICS.includes(topic as StoryTopicName)) {
+      throw badRequest('Topic must be people, places, eras or science');
+    }
+  }
+
   return {
     slug,
     title,
@@ -173,6 +196,9 @@ function normalizeStory(input: z.infer<typeof storySchema>): NormalizedStory {
     status: input.status,
     type: optionalText(input.type),
     subtype: optionalText(input.subtype),
+    region: regionText as NormalizedStory['region'],
+    topics: topics as StoryTopicName[],
+    isPhotoStory: input.isPhotoStory ?? false,
     body,
     media,
     sources,

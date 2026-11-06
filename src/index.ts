@@ -5,7 +5,9 @@ import { env, errorMessage } from './lib/env';
 import { HttpError } from './lib/http-error';
 import { prisma } from './lib/prisma';
 import { adminRouter } from './routes/admin';
+import { collectionsRouter } from './routes/collections';
 import { healthRouter } from './routes/health';
+import { onThisDayRouter } from './routes/on-this-day';
 import { storiesRouter } from './routes/stories';
 
 const app = express();
@@ -20,6 +22,8 @@ app.use(express.json({ limit: '1mb' }));
 
 app.use('/api/health', healthRouter);
 app.use('/api/stories', storiesRouter);
+app.use('/api/on-this-day', onThisDayRouter);
+app.use('/api/collections', collectionsRouter);
 app.use('/api/admin', adminRouter);
 
 app.use((_req, res) => {

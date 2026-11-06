@@ -18,20 +18,26 @@ enum StoryMediaType {
 }
 
 model Story {
-  id          Int           @id @default(autoincrement())
-  slug        String        @unique
-  title       String
-  summary     String        @db.Text
-  body        String        @db.LongText
-  eventDate   DateTime      @map("event_date") @db.Date
-  type        String?
-  subtype     String?
-  status      StoryStatus   @default(draft)
-  publishedAt DateTime?     @map("published_at")
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-  media       StoryMedia[]
-  sources     StorySource[]
+  id           Int               @id @default(autoincrement())
+  slug         String            @unique
+  title        String
+  summary      String            @db.Text
+  body         String            @db.LongText
+  eventDate    DateTime          @map("event_date") @db.Date
+  type         String?
+  subtype      String?
+  /// `us` or `world`; drives the U.S. / World filters on On This Day.
+  region       String?           @db.VarChar(16)
+  /// Candidate for "The Story Behind the Photo" on the home page.
+  isPhotoStory Boolean           @default(false) @map("is_photo_story")
+  status       StoryStatus       @default(draft)
+  publishedAt  DateTime?         @map("published_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+  media        StoryMedia[]
+  sources      StorySource[]
+  topics       StoryTopic[]
+  collections  CollectionStory[]
 
   @@index([eventDate], map: "stories_event_date_idx")
   @@index([status], map: "stories_status_idx")
@@ -73,13 +79,52 @@ model AdminSession {
 }
 
 model StorySource {
-  id        Int      @id @default(autoincrement())
-  storyId   Int      @map("story_id")
-  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  id        Int    @id @default(autoincrement())
+  storyId   Int    @map("story_id")
+  story     Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
   title     String
-  url       String   @db.VarChar(512)
+  url       String @db.VarChar(512)
   publisher String
 
   @@unique([storyId, url], map: "story_sources_story_id_url_key")
   @@map("story_sources")
+}
+
+/// People, places or eras a story belongs to. Science comes from `Story.type`.
+model StoryTopic {
+  storyId Int    @map("story_id")
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  topic   String @db.VarChar(32)
+
+  @@id([storyId, topic])
+  @@index([topic], map: "story_topics_topic_idx")
+  @@map("story_topics")
+}
+
+model Collection {
+  id          Int               @id @default(autoincrement())
+  slug        String            @unique
+  title       String
+  description String?           @db.Text
+  coverUrl    String?           @map("cover_url") @db.VarChar(512)
+  status      StoryStatus       @default(draft)
+  sortOrder   Int               @default(0) @map("sort_order")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+  stories     CollectionStory[]
+
+  @@index([status, sortOrder], map: "collections_status_sort_order_idx")
+  @@map("collections")
+}
+
+model CollectionStory {
+  collectionId Int        @map("collection_id")
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  storyId      Int        @map("story_id")
+  story        Story      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  sortOrder    Int        @default(0) @map("sort_order")
+
+  @@id([collectionId, storyId])
+  @@index([storyId], map: "collection_stories_story_id_idx")
+  @@map("collection_stories")
 }

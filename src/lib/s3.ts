@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { compressImage } from './compress-image';
 import { badRequest, serviceUnavailable } from './http-error';
 
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -32,12 +33,13 @@ export async function uploadStoryImage(file: UploadedImage) {
     throw badRequest('Image file is too large');
   }
 
-  const ext = MIME_TO_EXT[file.mimetype];
-  if (!ext) {
+  if (!MIME_TO_EXT[file.mimetype]) {
     throw badRequest('Unsupported image type');
   }
 
-  const objectKey = `${IMAGE_PREFIX}/${randomUUID()}${ext}`;
+  // Everything is stored as WebP of at most 200 KB.
+  const image = await compressImage(file.buffer);
+  const objectKey = `${IMAGE_PREFIX}/${randomUUID()}${image.ext}`;
   const mediaKey = `image-${randomUUID().replace(/-/g, '').slice(0, 12)}`;
 
   try {
@@ -45,8 +47,8 @@ export async function uploadStoryImage(file: UploadedImage) {
       new PutObjectCommand({
         Bucket: bucket,
         Key: objectKey,
-        Body: file.buffer,
-        ContentType: file.mimetype,
+        Body: image.buffer,
+        ContentType: image.mimetype,
         // Keys are random, so an object never changes once written.
         CacheControl: 'public, max-age=31536000, immutable',
       }),
