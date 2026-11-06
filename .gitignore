@@ -8,3 +8,4 @@ __pycache__
 *.log
 scripts/daily/tmp/
 scripts/daily/backups/
+scripts/daily/batches/
