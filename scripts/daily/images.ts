@@ -152,7 +152,8 @@ async function generate(prompt: string, out: string) {
 async function upload(file: string) {
   const buffer = await readFile(file);
   const meta = await sharp(buffer).metadata();
-  const mimetype = `image/${meta.format === 'jpg' ? 'jpeg' : meta.format}`;
+  // sharp names the format "jpeg", "png", "webp", "gif" or "avif", which is what the MIME type needs.
+  const mimetype = `image/${meta.format}`;
   const uploaded = await uploadStoryImage({ buffer, mimetype, size: buffer.length });
   console.log(JSON.stringify({ url: uploaded.url, mediaKey: uploaded.mediaKey }));
 }
