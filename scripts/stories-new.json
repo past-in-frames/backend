@@ -1,0 +1,842 @@
+[
+  {
+    "slug": "mars-global-surveyor-launches-1996",
+    "title": "Mars Global Surveyor Heads for the Red Planet",
+    "summary": "On November 7, 1996, NASA launched Mars Global Surveyor, the first successful American mission to Mars since Viking, beginning a decade of mapping the planet from orbit.",
+    "eventDate": "1996-11-07",
+    "status": "published",
+    "type": "science",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Return to Mars"
+      },
+      {
+        "type": "paragraph",
+        "text": "A Delta II rocket carried Mars Global Surveyor away from Cape Canaveral on November 7, 1996. NASA describes it as the first American mission to Mars that succeeded since the Viking landers of 1976, so the launch ended a gap of twenty years."
+      },
+      {
+        "type": "heading",
+        "text": "Slowing Down With the Atmosphere"
+      },
+      {
+        "type": "paragraph",
+        "text": "The spacecraft reached Mars in September 1997. To settle into the low, nearly circular orbit needed for mapping, it used the thin upper atmosphere of the planet as a brake, skimming through it again and again over many months instead of burning a large amount of fuel."
+      },
+      {
+        "type": "heading",
+        "text": "What the Instruments Found"
+      },
+      {
+        "type": "paragraph",
+        "text": "Its camera photographed steep slopes cut by narrow channels, and few of them showed impact craters, which suggests they are geologically young. NASA scientists read the pattern as a sign that liquid water may have acted on the surface in the not-too-distant past. A laser altimeter on board produced the first detailed global map of Martian elevation, and the images also showed what appeared to be an ancient river delta."
+      },
+      {
+        "type": "heading",
+        "text": "A Long Career"
+      },
+      {
+        "type": "paragraph",
+        "text": "The orbiter worked at Mars far longer than its planners expected, for more than four times its original prime mission. NASA lists the end of the mission as November 14, 2006, after the last contact with Earth on November 2. An investigation later pointed to a chain of events involving onboard memory and commands from the ground that left the spacecraft’s battery unable to recover."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Mars Global Surveyor",
+        "url": "https://science.nasa.gov/mission/mars-global-surveyor/",
+        "publisher": "NASA Science"
+      },
+      {
+        "title": "NASA’s Mars Global Surveyor May Be at Mission’s End",
+        "url": "https://www.jpl.nasa.gov/news/nasas-mars-global-surveyor-may-be-at-missions-end/",
+        "publisher": "NASA Jet Propulsion Laboratory"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "tycho-brahe-observes-supernova-1572",
+    "title": "A New Star in Cassiopeia: Tycho Brahe’s Supernova",
+    "summary": "In November 1572 Tycho Brahe recorded a brilliant new star in Cassiopeia and showed it lay far beyond the Moon, an observation that weakened the old idea of an unchanging sky.",
+    "eventDate": "1572-11-11",
+    "status": "published",
+    "type": "science",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Light Where None Had Been"
+      },
+      {
+        "type": "paragraph",
+        "text": "Accounts place Tycho Brahe’s sighting on the night of November 11, 1572. A bright point had appeared in the constellation Cassiopeia where no star was known. He was not the only person to notice it, but he became the most careful observer of the object."
+      },
+      {
+        "type": "heading",
+        "text": "Measuring the Unmovable"
+      },
+      {
+        "type": "paragraph",
+        "text": "If the star were close, as a comet or an atmospheric light would be, its position against the background stars should shift when seen from different places. Tycho measured it repeatedly and found no such shift. That placed it among the distant stars, in the region that traditional teaching described as perfect and unchanging."
+      },
+      {
+        "type": "heading",
+        "text": "A Slow Fade"
+      },
+      {
+        "type": "paragraph",
+        "text": "The new star grew as bright as the planet Venus, reaching a peak of about magnitude minus four in mid-November, and it stayed visible to the naked eye until early 1574. Tycho published his findings in a short book in 1573."
+      },
+      {
+        "type": "heading",
+        "text": "Reading the Light Echo"
+      },
+      {
+        "type": "paragraph",
+        "text": "Modern astronomers know the event as a Type Ia supernova, the explosion of a white dwarf star. In 2008 a team studied faint light from the blast that had reflected off interstellar dust and arrived centuries later, and its spectrum supported that classification. Estimates of the distance differ between sources."
+      }
+    ],
+    "sources": [
+      {
+        "title": "This Month in Physics History: Tycho Brahe Spots a Supernova",
+        "url": "https://www.aps.org/apsnews/2019/11/tycho-brahe-spots-supernova",
+        "publisher": "American Physical Society"
+      },
+      {
+        "title": "Tycho Brahe’s Supernova: Light from Centuries Past",
+        "url": "https://ui.adsabs.harvard.edu/abs/2004ApJ...612..357R/abstract",
+        "publisher": "The Astrophysical Journal"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "arecibo-message-sent-1974",
+    "title": "The Arecibo Message Is Beamed Toward a Star Cluster",
+    "summary": "On November 16, 1974, the Arecibo radio telescope sent a short message of 1,679 binary digits toward the globular cluster M13, a symbolic demonstration rather than a real attempt at conversation.",
+    "eventDate": "1974-11-16",
+    "status": "published",
+    "type": "science",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Ceremony With a Signal"
+      },
+      {
+        "type": "paragraph",
+        "text": "The broadcast was part of a ceremony marking an upgrade of the Arecibo Observatory in Puerto Rico. Frank Drake, then at Cornell University, led the design of the message with help from colleagues including Carl Sagan."
+      },
+      {
+        "type": "heading",
+        "text": "A Picture Made of Numbers"
+      },
+      {
+        "type": "paragraph",
+        "text": "The message contained 1,679 binary digits. Because that number is the product of two primes, 23 and 73, a receiver that guessed the right grid would see an image. The picture included numbers, chemical elements that appear in DNA, a simple human figure, a diagram of the Solar System and a sketch of the telescope."
+      },
+      {
+        "type": "heading",
+        "text": "A Very Distant Target"
+      },
+      {
+        "type": "paragraph",
+        "text": "It was aimed at M13, a cluster in the constellation Hercules about 25,000 light-years away, and it was sent only once, at 2,380 megahertz. A reply, if anyone ever sent one, could not arrive for roughly 50,000 years in total. Its designers described it mainly as a showcase of what human technology could do."
+      },
+      {
+        "type": "heading",
+        "text": "What Became of It"
+      },
+      {
+        "type": "paragraph",
+        "text": "The message is still often cited in discussions of how people might communicate with other civilizations. Claims that someone has answered it are not supported. The Arecibo telescope itself collapsed in December 2020."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Nov. 16, 1974: Arecibo sends a message",
+        "url": "https://www.astronomy.com/today-in-the-history-of-astronomy/nov-16-1974-arecibo-sends-a-message",
+        "publisher": "Astronomy"
+      },
+      {
+        "title": "Arecibo message",
+        "url": "https://en.wikipedia.org/wiki/Arecibo_message",
+        "publisher": "Wikipedia"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "nature-publishes-first-issue-1869",
+    "title": "Nature Publishes Its First Issue",
+    "summary": "On November 4, 1869, the first issue of Nature appeared in London, a weekly illustrated journal of science edited by the astronomer Norman Lockyer.",
+    "eventDate": "1869-11-04",
+    "status": "published",
+    "type": "science",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Weekly for Science"
+      },
+      {
+        "type": "paragraph",
+        "text": "The first issue of Nature was published on November 4, 1869, by the firm of Alexander Macmillan. Its subtitle called it a weekly illustrated journal of science, and it aimed to put the results of scientific work before readers who were not specialists as well as those who were."
+      },
+      {
+        "type": "heading",
+        "text": "The First Editor"
+      },
+      {
+        "type": "paragraph",
+        "text": "Macmillan chose the astronomer Norman Lockyer as the founding editor. Lockyer stayed with the journal for roughly fifty years, and he wrote for it himself, including an early article on the total solar eclipse of 1868."
+      },
+      {
+        "type": "heading",
+        "text": "Who Wrote in the First Issue"
+      },
+      {
+        "type": "paragraph",
+        "text": "The opening number carried a piece by the biologist Thomas Huxley, a review by the banker and scientist John Lubbock, and notices from scientific societies and academies. A mix of essays, reviews and news from learned bodies set the pattern for later issues."
+      },
+      {
+        "type": "heading",
+        "text": "From Weekly to Landmark"
+      },
+      {
+        "type": "paragraph",
+        "text": "The magazine grew into one of the best-known scientific journals in the world. Its early volumes have been digitized by libraries, which makes it possible to read the first issues much as London readers did in 1869."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Nature: A Weekly Illustrated Journal of Science. Volume I",
+        "url": "https://ourheritage.ac.nz/items/show/11395",
+        "publisher": "Otago Heritage"
+      },
+      {
+        "title": "Norman Lockyer",
+        "url": "https://www.lindahall.org/about/news/scientist-of-the-day/norman-lockyer",
+        "publisher": "Linda Hall Library"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "leonid-meteor-storm-1833",
+    "title": "The Night the Stars Fell: The 1833 Leonid Meteor Storm",
+    "summary": "In the early hours of November 13, 1833, observers across North America saw an enormous display of meteors, an event that helped start the scientific study of meteor showers.",
+    "eventDate": "1833-11-13",
+    "status": "published",
+    "type": "science",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Sky Full of Streaks"
+      },
+      {
+        "type": "paragraph",
+        "text": "During the night of November 12 to 13, 1833, people across much of the United States woke to find the sky filled with shooting stars. Accounts describe an astonishing number of meteors in the hours before dawn, and the display was widely seen. Estimates of the hourly rate vary, and historians still debate how to count them."
+      },
+      {
+        "type": "heading",
+        "text": "Fear and Curiosity"
+      },
+      {
+        "type": "paragraph",
+        "text": "Many watchers were frightened and some took the display as a religious sign. Others wrote careful descriptions of what they saw, and newspapers carried the reports across the country."
+      },
+      {
+        "type": "heading",
+        "text": "A Single Point in Leo"
+      },
+      {
+        "type": "paragraph",
+        "text": "Scientists who compared the accounts noticed that the meteors appeared to spread outward from one point in the constellation Leo. That pattern pointed to a shared origin in space rather than something in the atmosphere, and it led to the term meteor shower."
+      },
+      {
+        "type": "heading",
+        "text": "From Storm to Comet"
+      },
+      {
+        "type": "paragraph",
+        "text": "Earlier records of Leonid displays reach back many centuries and show a recurring cycle of about 33 years. In the 1860s astronomers connected the shower to the comet Tempel–Tuttle, showing that the meteors were debris left along the comet’s path."
+      }
+    ],
+    "sources": [
+      {
+        "title": "A Month in Astronomical History",
+        "url": "https://aas.org/posts/news/2018/12/month-astronomical-history-0",
+        "publisher": "American Astronomical Society"
+      },
+      {
+        "title": "Americans Fell in Love With Science When the Leonid Meteor Shower Lit Up the Skies",
+        "url": "https://www.smithsonianmag.com/smart-news/americans-fell-in-love-with-science-when-the-breathtaking-leonid-meteor-shower-lit-up-the-skies-across-nation-180985435/",
+        "publisher": "Smithsonian Magazine"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "cortes-enters-tenochtitlan-1519",
+    "title": "Cortés Enters Tenochtitlan and Meets Moctezuma",
+    "summary": "On November 8, 1519, Hernán Cortés and his allies reached the Mexica capital Tenochtitlan, where Moctezuma II received them. Historians now question many of the legends about that meeting.",
+    "eventDate": "1519-11-08",
+    "status": "published",
+    "type": "history",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A City on a Lake"
+      },
+      {
+        "type": "paragraph",
+        "text": "Tenochtitlan stood on an island in Lake Texcoco and was among the largest cities in the world at the time. Visitors reached it along raised causeways, and the Spanish expedition approached by the one that ran from Iztapalapa."
+      },
+      {
+        "type": "heading",
+        "text": "The Meeting on the Causeway"
+      },
+      {
+        "type": "paragraph",
+        "text": "On November 8, 1519, Hernán Cortés arrived with a few hundred Spanish soldiers and a much larger body of Indigenous allies, many of them from Tlaxcala. Moctezuma II, the ruler of the Mexica, came out to meet the party with other nobles and welcomed them into the city."
+      },
+      {
+        "type": "heading",
+        "text": "Hosts and Guests"
+      },
+      {
+        "type": "paragraph",
+        "text": "The Spanish were lodged in the city and treated as guests, at least at first. Spanish accounts describe gifts and ceremony. Within days, according to later writers, Cortés had taken Moctezuma into custody inside the palace where the Spanish were staying, with the Spanish badly outnumbered."
+      },
+      {
+        "type": "heading",
+        "text": "Rethinking the Legend"
+      },
+      {
+        "type": "paragraph",
+        "text": "Popular retellings say the Mexica took Cortés for a returning god. Many modern scholars doubt that, and Matthew Restall’s book on the meeting argues that the story grew out of later Spanish and colonial writing. What followed is better documented: fighting broke out in 1520, and in 1521 Tenochtitlan fell after a long siege."
+      }
+    ],
+    "sources": [
+      {
+        "title": "How Did Hernán Cortés Conquer Tenochtitlan?",
+        "url": "https://www.historyhit.com/1519-cortes-enters-tenochtitlan/",
+        "publisher": "History Hit"
+      },
+      {
+        "title": "Fall of Tenochtitlan",
+        "url": "https://en.wikipedia.org/wiki/Fall_of_Tenochtitlan",
+        "publisher": "Wikipedia"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "kaiser-wilhelm-ii-abdication-announced-1918",
+    "title": "Germany Announces the Kaiser’s Abdication",
+    "summary": "On November 9, 1918, Chancellor Max von Baden announced that Wilhelm II had abdicated, before the Kaiser had agreed, as revolution spread through Germany in the last days of the First World War.",
+    "eventDate": "1918-11-09",
+    "status": "published",
+    "type": "history",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Government Under Pressure"
+      },
+      {
+        "type": "paragraph",
+        "text": "By early November 1918 Germany was losing the war, its navy had mutinied, and revolutionary councils were forming in cities. Many people, including leading politicians, believed the monarchy would have to go if the country was to reach peace."
+      },
+      {
+        "type": "heading",
+        "text": "An Announcement Without Consent"
+      },
+      {
+        "type": "paragraph",
+        "text": "On November 9 the Reich Chancellor, Prince Max von Baden, told the public that the Kaiser had abdicated. Wilhelm II, who was at the army headquarters in Spa, Belgium, had not yet agreed to it. Baden hoped that removing the Kaiser would save the monarchy as an institution."
+      },
+      {
+        "type": "heading",
+        "text": "A Republic in a Day"
+      },
+      {
+        "type": "paragraph",
+        "text": "Later that day Baden handed the chancellorship to Friedrich Ebert, the Social Democratic leader, which went beyond what the constitution allowed. Philipp Scheidemann then proclaimed a republic. Germany had in effect changed its form of government within hours."
+      },
+      {
+        "type": "heading",
+        "text": "Exile"
+      },
+      {
+        "type": "paragraph",
+        "text": "On the morning of November 10 the Kaiser crossed into the Netherlands. He confirmed his abdication in a written statement dated November 28, issued from exile at Amerongen. The armistice that ended the fighting took effect on November 11."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Abdication of Wilhelm II",
+        "url": "https://en.wikipedia.org/wiki/Abdication_of_Wilhelm_II",
+        "publisher": "Wikipedia"
+      },
+      {
+        "title": "Kaiser Wilhelm II on His Abdication (Retrospective Account, 1922)",
+        "url": "https://germanhistorydocs.org/en/weimar-germany-1918-1933/kaiser-wilhelm-ii-on-his-abdication-retrospective-account-1922",
+        "publisher": "German History in Documents and Images"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "ataturk-dies-at-dolmabahce-palace-1938",
+    "title": "Atatürk Dies at Dolmabahçe Palace",
+    "summary": "On November 10, 1938, Mustafa Kemal Atatürk, the founder and first president of the Republic of Turkey, died in Istanbul at the age of 57. Turkey still marks the minute each year.",
+    "eventDate": "1938-11-10",
+    "status": "published",
+    "type": "history",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "The End of a Long Illness"
+      },
+      {
+        "type": "paragraph",
+        "text": "Mustafa Kemal Atatürk died at Dolmabahçe Palace in Istanbul on November 10, 1938. A death certificate signed by nine medical professors gives the time as 9:05 in the morning. He was 57, and fifteen years had passed since he had declared the Republic of Turkey."
+      },
+      {
+        "type": "heading",
+        "text": "A Founder of a State"
+      },
+      {
+        "type": "paragraph",
+        "text": "Atatürk had commanded Ottoman and then nationalist forces and led the Turkish national movement after the First World War. As president he oversaw sweeping legal, educational and cultural changes, which people in Turkey and elsewhere judge in different ways."
+      },
+      {
+        "type": "heading",
+        "text": "Remembering the Hour"
+      },
+      {
+        "type": "paragraph",
+        "text": "Each year on November 10, sirens sound across Turkey at 9:05 and people stop for a moment of silence. Visitors also come to the room in the palace where he died."
+      },
+      {
+        "type": "heading",
+        "text": "A Resting Place"
+      },
+      {
+        "type": "paragraph",
+        "text": "His body was first placed in the Ethnography Museum in Ankara. It was moved on November 10, 1953, the fifteenth anniversary of his death, to the mausoleum called Anıtkabir, which overlooks the capital."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Death and State Funeral of Mustafa Kemal Atatürk",
+        "url": "https://en.wikipedia.org/wiki/Death_and_state_funeral_of_Mustafa_Kemal_Atat%C3%BCrk",
+        "publisher": "Wikipedia"
+      },
+      {
+        "title": "Turkey Marks Atatürk’s 82nd Death Anniversary",
+        "url": "https://hurriyetdailynews.com/turkey-marks-ataturks-82nd-death-anniversary-159875",
+        "publisher": "Hürriyet Daily News"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "gandhi-arrested-transvaal-march-1913",
+    "title": "Gandhi Is Arrested on the Transvaal March",
+    "summary": "On November 6, 1913, Mohandas Gandhi was arrested while leading more than two thousand striking miners and their families toward the Transvaal border in South Africa.",
+    "eventDate": "1913-11-06",
+    "status": "published",
+    "type": "history",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Strike in the Coalfields"
+      },
+      {
+        "type": "paragraph",
+        "text": "In October 1913 Indian coal miners in Natal went on strike, and within two weeks several thousand had stopped work. Their grievances included a tax on former indentured workers and laws that did not recognize Indian marriages. Gandhi, then a lawyer living in South Africa, had long campaigned against such measures."
+      },
+      {
+        "type": "heading",
+        "text": "The March"
+      },
+      {
+        "type": "paragraph",
+        "text": "The march he led into the Transvaal on November 6 counted 2,037 men, 127 women and 57 children. Crossing from Natal into the Transvaal without permission was a deliberate act of civil disobedience, intended to be met with arrest."
+      },
+      {
+        "type": "heading",
+        "text": "Arrested, Released, Arrested Again"
+      },
+      {
+        "type": "paragraph",
+        "text": "Gandhi was arrested that day. Accounts differ on how many times he was taken into custody over the following days, but all agree that he was released on bail and then arrested again. He was prosecuted mainly for inducing indentured workers to leave Natal."
+      },
+      {
+        "type": "heading",
+        "text": "An Agreement in 1914"
+      },
+      {
+        "type": "paragraph",
+        "text": "The pressure from the strike and the marches, along with attention abroad, pushed the government to negotiate. A settlement with General Jan Smuts followed, and the Indian Relief Act of 1914 addressed some of the main complaints. Gandhi left South Africa for India in July 1914."
+      }
+    ],
+    "sources": [
+      {
+        "title": "1913 Satyagraha Campaign Resumes",
+        "url": "https://sahistory.org.za/article/1913-satyagraha-campaign-resumes",
+        "publisher": "South African History Online"
+      },
+      {
+        "title": "The March That Made Gandhi a Mahatma",
+        "url": "https://www.newstatesman.com/politics/2013/09/march-made-gandhi-mahatma",
+        "publisher": "New Statesman"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "eugene-ely-first-ship-takeoff-1910",
+    "title": "Eugene Ely Flies Off a Navy Cruiser",
+    "summary": "On November 14, 1910, civilian pilot Eugene Ely took off from a wooden platform on the cruiser USS Birmingham at Hampton Roads, Virginia, the first takeoff of an airplane from a ship.",
+    "eventDate": "1910-11-14",
+    "status": "published",
+    "type": "history",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "An Experiment for the Navy"
+      },
+      {
+        "type": "paragraph",
+        "text": "Only seven years after the Wright brothers’ first flights, some naval officers were asking whether aircraft could operate from ships. The Navy agreed to try. A sloping wooden platform was built over the bow of the cruiser USS Birmingham, which lay at anchor in Hampton Roads, Virginia."
+      },
+      {
+        "type": "heading",
+        "text": "The Flight"
+      },
+      {
+        "type": "paragraph",
+        "text": "On November 14, 1910, Eugene Ely, a pilot who flew Curtiss aircraft, ran his pusher biplane down the platform in poor, squally weather. Accounts describe a low and rough departure, and he set the aircraft down on a nearby beach rather than returning to the ship."
+      },
+      {
+        "type": "heading",
+        "text": "A Landing Followed"
+      },
+      {
+        "type": "paragraph",
+        "text": "Two months later, on January 18, 1911, Ely made the first landing of an airplane on a ship, on a platform built over the stern of the cruiser USS Pennsylvania in San Francisco Bay. Arresting lines stretched across the deck helped stop the plane."
+      },
+      {
+        "type": "heading",
+        "text": "Why It Mattered"
+      },
+      {
+        "type": "paragraph",
+        "text": "The two flights showed that a ship could serve as a base for aircraft. Ely died in a crash at an exhibition in October 1911, and the idea he had tested went on to shape the development of aircraft carriers."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Today in Aviation History: Eugene Ely and the First Shipboard Aircraft Landing",
+        "url": "https://vintageaviationnews.com/warbird-articles/today-in-aviation-history/today-in-aviation-history-engene-ely-and-the-first-shipboard-aircraft-landing.html",
+        "publisher": "Vintage Aviation News"
+      },
+      {
+        "title": "The First Shipboard Aircraft Landing and Takeoff",
+        "url": "https://generalaviationnews.com/2018/10/18/the-first-shipboard-aircraft-landing-and-takeoff/",
+        "publisher": "General Aviation News"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "first-college-football-game-rutgers-princeton-1869",
+    "title": "Rutgers and Princeton Play the First College Football Game",
+    "summary": "On November 6, 1869, Rutgers beat Princeton 6–4 in New Brunswick, New Jersey, in a game now counted as the first intercollegiate football match, though it looked more like soccer than modern football.",
+    "eventDate": "1869-11-06",
+    "status": "published",
+    "type": "other",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "Two Colleges, One Field"
+      },
+      {
+        "type": "paragraph",
+        "text": "Rutgers and Princeton, two New Jersey colleges, agreed to a pair of matches in the fall of 1869. The first was played on November 6 on College Field in New Brunswick, where Rutgers students hosted the visitors in front of roughly a hundred spectators."
+      },
+      {
+        "type": "heading",
+        "text": "Not Quite Football"
+      },
+      {
+        "type": "paragraph",
+        "text": "The teams used a round ball and mostly kicked and batted it, with no passing and no tackling in the modern sense. Each side fielded twenty-five players. The rules were closer to association football, which Americans were still calling by several names."
+      },
+      {
+        "type": "heading",
+        "text": "The Score"
+      },
+      {
+        "type": "paragraph",
+        "text": "Rutgers won by six goals to four, with the first team to reach a set number of goals winning. A week later, on November 13, Princeton won the rematch 8–0 on its own field, so the two schools finished the season even."
+      },
+      {
+        "type": "heading",
+        "text": "A Slow Birth"
+      },
+      {
+        "type": "paragraph",
+        "text": "The game did not become modern American football overnight. Rules changed over the following decades as other schools joined in and borrowed ideas from rugby. Still, Rutgers has long celebrated itself as the birthplace of the sport."
+      }
+    ],
+    "sources": [
+      {
+        "title": "In the First Collegiate Football Game 150 Years Ago, Rutgers Beat Princeton",
+        "url": "https://www.rutgers.edu/news/birthplace-college-football",
+        "publisher": "Rutgers University"
+      },
+      {
+        "title": "Rutgers Beats Princeton in the First College Football Game",
+        "url": "https://www.history.com/this-day-in-history/first-college-football-game-rutgers-princeton",
+        "publisher": "HISTORY"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "fantasia-premieres-broadway-theatre-1940",
+    "title": "Fantasia Opens With a Sound System Built for It",
+    "summary": "On November 13, 1940, Walt Disney’s Fantasia premiered at the Broadway Theatre in New York with Fantasound, an early multichannel sound system developed for the film.",
+    "eventDate": "1940-11-13",
+    "status": "published",
+    "type": "other",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "Animation Set to Classical Music"
+      },
+      {
+        "type": "paragraph",
+        "text": "Fantasia paired animated sequences with pieces of classical music played by an orchestra conducted by Leopold Stokowski. It began as a plan to give Mickey Mouse a bigger role in an adaptation of The Sorcerer’s Apprentice and grew into a full-length concert film."
+      },
+      {
+        "type": "heading",
+        "text": "The Premiere"
+      },
+      {
+        "type": "paragraph",
+        "text": "The film opened on November 13, 1940, at the Broadway Theatre in New York City. It was released as a roadshow, meaning it played in selected theaters with reserved seats and a special presentation instead of the usual wide release."
+      },
+      {
+        "type": "heading",
+        "text": "Fantasound"
+      },
+      {
+        "type": "paragraph",
+        "text": "Disney and RCA developed Fantasound to give the music a sense of space, with separate channels feeding speakers around the theater. It was an early form of stereo and surround sound. Equipping a theater was expensive, with sources putting the cost of the Broadway installation in the tens of thousands of dollars or more."
+      },
+      {
+        "type": "heading",
+        "text": "A Mixed Debut"
+      },
+      {
+        "type": "paragraph",
+        "text": "Because few theaters could afford the equipment, the full Fantasound system was not used widely, and shorter versions of the film were prepared for ordinary cinemas. The film was not an immediate commercial success, but it later became one of Disney’s best-known works."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Fantasia (film)",
+        "url": "https://d23.com/a-to-z/fantasia-film",
+        "publisher": "D23: The Official Disney Fan Club"
+      },
+      {
+        "title": "Fantasound",
+        "url": "https://ethw.org/Fantasound",
+        "publisher": "Engineering and Technology History Wiki"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "tomb-of-the-unknown-soldier-dedicated-1921",
+    "title": "The Tomb of the Unknown Soldier Is Dedicated at Arlington",
+    "summary": "On November 11, 1921, three years after the First World War armistice, President Warren G. Harding presided over the burial of an unidentified American soldier at Arlington National Cemetery.",
+    "eventDate": "1921-11-11",
+    "status": "published",
+    "type": "other",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "Choosing One Soldier"
+      },
+      {
+        "type": "paragraph",
+        "text": "Congress approved the plan for an unknown soldier’s burial in March 1921. In October, four unidentified American servicemen were exhumed from cemeteries in France, and one was selected to represent all those who had died without being named."
+      },
+      {
+        "type": "heading",
+        "text": "Lying in State"
+      },
+      {
+        "type": "paragraph",
+        "text": "The casket crossed the Atlantic and lay in the Capitol Rotunda in Washington on November 10. More than ninety thousand people are reported to have filed past it."
+      },
+      {
+        "type": "heading",
+        "text": "Armistice Day"
+      },
+      {
+        "type": "paragraph",
+        "text": "On November 11, exactly three years after the armistice, a procession carried the casket to Arlington National Cemetery. President Harding presided at the Memorial Amphitheater, gave an address and presented the Medal of Honor and the Distinguished Service Cross to the Unknown Soldier."
+      },
+      {
+        "type": "heading",
+        "text": "A Guarded Tomb"
+      },
+      {
+        "type": "paragraph",
+        "text": "The tomb became one of the most visited sites at Arlington. Soldiers have guarded it day and night since the 1930s, and later unknown servicemen from other wars have been laid to rest beside it."
+      }
+    ],
+    "sources": [
+      {
+        "title": "The Centennial of the Tomb of the Unknown Soldier",
+        "url": "https://www.army.mil/article/251896/the_centennial_of_the_tomb_of_the_unknown_soldier",
+        "publisher": "U.S. Army"
+      },
+      {
+        "title": "Dedication of the Tomb of the Unknowns",
+        "url": "https://www.history.com/this-day-in-history/november-11/dedication-of-the-tomb-of-the-unknowns",
+        "publisher": "HISTORY"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "first-direct-dial-long-distance-call-1951",
+    "title": "A Mayor Dials Across the Country Without an Operator",
+    "summary": "On November 10, 1951, the mayor of Englewood, New Jersey, placed the first coast-to-coast telephone call dialed directly by a customer, reaching the mayor of Alameda, California, without an operator.",
+    "eventDate": "1951-11-10",
+    "status": "published",
+    "type": "other",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "Before Direct Dialing"
+      },
+      {
+        "type": "paragraph",
+        "text": "In the early 1950s, a long-distance call usually meant asking an operator to connect it, sometimes through several relay points. The Bell System had been working toward a network that let callers dial the number themselves."
+      },
+      {
+        "type": "heading",
+        "text": "The Call"
+      },
+      {
+        "type": "paragraph",
+        "text": "On November 10, 1951, Englewood, New Jersey, was the first town to test it publicly. Its mayor, M. Leslie Denning, dialed ten digits, a three-digit area code and a seven-digit number, and reached Frank Osborne, the mayor of Alameda, California. Accounts spell some of the names differently."
+      },
+      {
+        "type": "heading",
+        "text": "Eighteen Seconds"
+      },
+      {
+        "type": "paragraph",
+        "text": "According to reports, the call connected automatically in about 18 seconds. Englewood was chosen in part because its switching equipment had been modified to handle long-distance calls throughout New Jersey and parts of New York."
+      },
+      {
+        "type": "heading",
+        "text": "A Change in Habits"
+      },
+      {
+        "type": "paragraph",
+        "text": "Direct distance dialing spread to more cities over the following years and made the area code a familiar part of everyday life. It also reduced the number of operators needed to place ordinary long-distance calls."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Direct distance dialing",
+        "url": "https://en.wikipedia.org/wiki/Direct_distance_dialing",
+        "publisher": "Wikipedia"
+      },
+      {
+        "title": "First Operator-Free Long-Distance Telephone Call",
+        "url": "https://www.ebsco.com/research-starters/communication-and-mass-media/first-operator-free-long-distance-telephone-call",
+        "publisher": "EBSCO Research Starters"
+      }
+    ],
+    "media": []
+  },
+  {
+    "slug": "flannan-isles-lighthouse-keepers-vanish-1900",
+    "title": "The Flannan Isles Lighthouse Is Found Empty",
+    "summary": "On December 26, 1900, a relief keeper reached the lighthouse on Eilean Mòr in Scotland’s Outer Hebrides and found no sign of the three men who should have been there. Their fate was never explained.",
+    "eventDate": "1900-12-26",
+    "status": "published",
+    "type": "other",
+    "subtype": null,
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Light That Was Out"
+      },
+      {
+        "type": "paragraph",
+        "text": "The Flannan Isles Lighthouse stands on Eilean Mòr, a remote island west of the Isle of Lewis. On December 15, 1900, the passing steamer Archtor reported that the light was not burning. Word of that report did not reach the lighthouse authorities in time to prompt a quick check."
+      },
+      {
+        "type": "heading",
+        "text": "The Relief Ship Arrives"
+      },
+      {
+        "type": "paragraph",
+        "text": "The supply ship Hesperus was delayed by bad weather and reached the island at about noon on December 26. Joseph Moore, the relief keeper, went ashore alone and found the outer gate and the main door closed. The beds were unmade and the clock had stopped. There was no sign of the three keepers, inside the building or anywhere on the island."
+      },
+      {
+        "type": "heading",
+        "text": "Who Was Missing"
+      },
+      {
+        "type": "paragraph",
+        "text": "The men are usually named as James Ducat, Thomas Marshall and Donald MacArthur, although sources give the spellings differently. Moore and volunteers stayed to keep the light burning while officials investigated."
+      },
+      {
+        "type": "heading",
+        "text": "No Answer"
+      },
+      {
+        "type": "paragraph",
+        "text": "Investigators concluded that the men had probably been swept off the rock by a large wave during a storm, but nothing proved it. Later retellings added invented details, which is why the Flannan Isles case remains a popular unsolved mystery rather than a settled one."
+      }
+    ],
+    "sources": [
+      {
+        "title": "The Flannan Islands Lighthouse: A Disappearance",
+        "url": "https://nrscotland.gov.uk/learning-and-events/for-the-safety-of-all-scotlands-lighthouses/the-flannan-islands-lighthouse-a-disappearance/",
+        "publisher": "National Records of Scotland"
+      },
+      {
+        "title": "The Flannan Isle Mystery: The Three Lighthouse Keepers Who Vanished",
+        "url": "https://www.history.co.uk/articles/the-flannan-isle-mystery-the-three-lighthouse-keepers-who-vanished",
+        "publisher": "HISTORY UK"
+      }
+    ],
+    "media": []
+  }
+]
