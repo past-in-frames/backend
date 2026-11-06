@@ -30,6 +30,11 @@ function decode(text: string) {
   return text.replace(/&(?:amp|lt|gt|quot|apos|#39);/g, (match) => ENTITIES[match] ?? match);
 }
 
+/** Shorts are titled "Carving Begins at Mount Rushmore #history"; the hashtags are not part of the story title. */
+export function stripHashtags(title: string) {
+  return title.replace(/(?:\s+#[\p{L}\p{N}_]+)+\s*$/u, '').trim();
+}
+
 /** "Chang’e 1 Enters Lunar Orbit" and "Chang'e 1 enters lunar orbit" are the same title. */
 export function normalizeTitle(title: string) {
   return title
@@ -45,7 +50,7 @@ export function parseFeed(xml: string): FeedVideo[] {
     const title = /<title>([\s\S]*?)<\/title>/.exec(entry[1])?.[1];
     // The feed links a Short to /shorts/<id> and any other video to /watch?v=<id>.
     const short = /<link rel="alternate" href="[^"]*\/shorts\/[\w-]{11}"/.test(entry[1]);
-    return id && title ? [{ id, title: decode(title).trim(), short }] : [];
+    return id && title ? [{ id, title: stripHashtags(decode(title)), short }] : [];
   });
 }
 
