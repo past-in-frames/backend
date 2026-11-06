@@ -30,6 +30,16 @@ should address the MySQL container directly on port 3306.
 Schema changes are applied with `npm run db:migrate` (`prisma migrate deploy`).
 Since there is no staging copy, review the generated SQL before running it.
 
+### Title search
+
+`GET /api/stories?q=` searches **titles only**. The `title_fulltext` migration adds a
+FULLTEXT index on `stories.title`: a search then finds titles that contain every typed
+word, and each word may be the start of a longer one (`apol` finds Apollo). Words too
+short for the index (such as the 7 in "Venera 7") are checked against the title directly,
+and a query with no indexable word falls back to `LIKE`. Until the migration is applied
+the API keeps working with `LIKE`, and it switches to the index within a minute of the
+migration, with no restart.
+
 After the `home_redesign` migration, fill the new fields for existing stories
 (region, topics, the photo story, three starter collections):
 
@@ -82,6 +92,7 @@ Public responses are cacheable and only ever include stories with
 | GET    | `/api/stories/random`      | One random published story (`slug`, `type`), never cached |
 | GET    | `/api/on-this-day`         | `?month=&day=&scope=all\|us\|world\|science`: lead story, same-day stories, the week before |
 | GET    | `/api/on-this-day/days`    | Calendar days (`MM-DD`) that have a published story |
+| GET    | `/api/sitemap`             | Everything the sitemap lists: stories, days, collections, topics and when each last changed |
 | GET    | `/api/collections`         | Published collections (`?limit=`)       |
 | GET    | `/api/collections/:slug`   | A collection with its stories           |
 | GET    | `/api/stories/:slug`       | Full story with media and sources       |

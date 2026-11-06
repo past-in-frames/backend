@@ -4,10 +4,12 @@ import express, { type NextFunction, type Request, type Response } from 'express
 import { env, errorMessage } from './lib/env';
 import { HttpError } from './lib/http-error';
 import { prisma } from './lib/prisma';
+import { startYoutubeSync } from './lib/youtube-sync';
 import { adminRouter } from './routes/admin';
 import { collectionsRouter } from './routes/collections';
 import { healthRouter } from './routes/health';
 import { onThisDayRouter } from './routes/on-this-day';
+import { sitemapRouter } from './routes/sitemap';
 import { storiesRouter } from './routes/stories';
 
 const app = express();
@@ -24,6 +26,7 @@ app.use('/api/health', healthRouter);
 app.use('/api/stories', storiesRouter);
 app.use('/api/on-this-day', onThisDayRouter);
 app.use('/api/collections', collectionsRouter);
+app.use('/api/sitemap', sitemapRouter);
 app.use('/api/admin', adminRouter);
 
 app.use((_req, res) => {
@@ -42,6 +45,7 @@ app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
 
 const server = app.listen(env.port, '0.0.0.0', () => {
   console.log(`API listening on http://0.0.0.0:${env.port}`);
+  if (env.youtubeChannelId) startYoutubeSync(env.youtubeChannelId);
 });
 
 for (const signal of ['SIGTERM', 'SIGINT'] as const) {

@@ -18,6 +18,8 @@ function requiredUrl() {
 export const env = {
   port: Number(process.env.PORT ?? DEFAULT_PORT),
   databaseUrl: requiredUrl(),
+  /** The YouTube channel whose videos are attached to stories. Leave unset to turn syncing off. */
+  youtubeChannelId: process.env.YOUTUBE_CHANNEL_ID?.trim() || undefined,
   frontendOrigins: (process.env.FRONTEND_ORIGIN ?? DEFAULT_FRONTEND_ORIGIN)
     .split(",")
     .map((origin) => origin.trim())

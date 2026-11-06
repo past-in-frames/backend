@@ -19,6 +19,8 @@ import {
 import { formatDateOnly } from "../lib/story-view";
 import { requireAdmin } from "../middleware/admin-auth";
 import { adminCollectionsRouter } from "./admin-collections";
+import { env } from "../lib/env";
+import { syncYoutubeVideos } from "../lib/youtube-sync";
 import { rateLimit } from "../middleware/rate-limit";
 
 const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
@@ -84,6 +86,16 @@ adminRouter.post(
 // Everything below this line requires a valid session.
 adminRouter.use(requireAdmin);
 adminRouter.use("/collections", adminCollectionsRouter);
+
+adminRouter.post(
+  "/youtube/sync",
+  asyncHandler(async (_req, res) => {
+    if (!env.youtubeChannelId) {
+      throw badRequest("YOUTUBE_CHANNEL_ID is not set");
+    }
+    res.json(await syncYoutubeVideos(env.youtubeChannelId));
+  }),
+);
 
 adminRouter.post(
   "/logout",
