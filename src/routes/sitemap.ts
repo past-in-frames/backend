@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/async-handler';
 import { prisma } from '../lib/prisma';
+import { STORY_TYPES } from '../lib/story-types';
 
 export const sitemapRouter = Router();
 
 const PUBLIC_CACHE = 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400';
-const SECTION_TYPES = ['science', 'history', 'other'];
+const SECTION_TYPES: string[] = [...STORY_TYPES];
 
 function newest(...dates: (Date | null | undefined)[]) {
   const times = dates.flatMap((date) => (date ? [date.getTime()] : []));

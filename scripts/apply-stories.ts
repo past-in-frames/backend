@@ -4,7 +4,10 @@
  * field is ignored so image blocks stay in place.
  *
  *   npm run db:tunnel
- *   npx tsx scripts/apply-stories.ts scripts/stories-updated.json
+ *   npx tsx scripts/apply-stories.ts scripts/stories-updated.json [--dry-run] [--insert-only]
+ *
+ * --dry-run      Validate every story and say what would happen; write nothing.
+ * --insert-only  Stop if a slug already exists, instead of overwriting that story.
  */
 import { readFileSync } from "node:fs";
 import { prisma } from "../src/lib/prisma";
@@ -12,7 +15,10 @@ import { parseStoryInput } from "../src/lib/story-input";
 import { writeStory } from "../src/lib/story-repository";
 
 async function main() {
-  const path = process.argv[2];
+  const args = process.argv.slice(2);
+  const path = args.find((arg) => !arg.startsWith("--"));
+  const dryRun = args.includes("--dry-run");
+  const insertOnly = args.includes("--insert-only");
   if (!path) {
     throw new Error("Pass the JSON file, for example scripts/stories-updated.json");
   }
@@ -35,6 +41,8 @@ async function main() {
       status: record.status,
       type: record.type,
       subtype: record.subtype,
+      region: record.region,
+      topics: record.topics,
       body: record.body,
       media: record.media,
       sources: record.sources,
@@ -48,6 +56,13 @@ async function main() {
       where: { slug: story.slug },
       select: { id: true, publishedAt: true },
     });
+    if (existing && insertOnly) {
+      throw new Error(`${story.slug} already exists; nothing was written for it (--insert-only)`);
+    }
+    if (dryRun) {
+      console.log(`${existing ? "would update" : "would insert"} ${story.slug} (${story.status}, ${story.type}, ${story.media.length} media, ${story.sources.length} sources)`);
+      continue;
+    }
     await writeStory(story, existing);
     if (existing) {
       updated += 1;
@@ -58,7 +73,7 @@ async function main() {
     }
   }
 
-  console.log(`done: updated=${updated} inserted=${inserted}`);
+  console.log(dryRun ? `dry run finished, nothing written` : `done: updated=${updated} inserted=${inserted}`);
 }
 
 main()

@@ -8,6 +8,7 @@ import { summarySelect, toSummary } from '../lib/story-summary';
 import { matchingTitleIds } from '../lib/title-search';
 import { formatDateOnly, parseStoredBody } from '../lib/story-view';
 import { STORY_TOPICS, type StoryTopicName } from '../lib/story-input';
+import { isStoryType } from '../lib/story-types';
 
 export const storiesRouter = Router();
 
@@ -98,8 +99,7 @@ storiesRouter.get(
   '/',
   asyncHandler(async (req, res) => {
     const typeQuery = typeof req.query.type === 'string' ? req.query.type.trim() : '';
-    const type =
-      typeQuery === 'science' || typeQuery === 'history' || typeQuery === 'other' ? typeQuery : '';
+    const type = isStoryType(typeQuery) ? typeQuery : '';
     const excludeOther = req.query.exclude === 'other';
     const topicQuery = typeof req.query.topic === 'string' ? req.query.topic.trim() : '';
     const topic = STORY_TOPICS.includes(topicQuery as StoryTopicName) ? topicQuery : '';

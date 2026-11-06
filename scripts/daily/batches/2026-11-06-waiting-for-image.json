@@ -1,0 +1,67 @@
+[
+  {
+    "tier": "short",
+    "slug": "meet-the-press-first-television-broadcast-1947",
+    "title": "Meet the Press Makes Its Television Debut on NBC",
+    "summary": "On November 6, 1947, Meet the Press, which had begun on radio two years earlier, aired its first television episode on NBC.",
+    "eventDate": "1947-11-06",
+    "status": "draft",
+    "type": "film",
+    "subtype": null,
+    "region": "us",
+    "topics": [],
+    "body": [
+      {
+        "type": "heading",
+        "text": "From Radio to Television"
+      },
+      {
+        "type": "paragraph",
+        "text": "According to the Library of Congress, Meet the Press began on Mutual Radio on October 5, 1945, with Martha Rountree as moderator and Lawrence Spivak as producer. It reached television two years later: its first television episode aired on NBC on November 6, 1947, again with Rountree moderating. The format brought four newspaper reporters together to question a prominent figure in the news. NBC News lists Rountree as moderator from November 6, 1947, to November 1, 1953. The Library of Congress holds thousands of hours of the program on film and audio, from a 1986 NBC donation."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Meet Martha Rountree",
+        "url": "https://blogs.loc.gov/now-see-hear/2014/08/meet-martha-rountree/",
+        "publisher": "Library of Congress"
+      },
+      {
+        "title": "Fast facts about the longest-running program in television history",
+        "url": "https://www.nbcnews.com/news/amp/wbna21872087",
+        "publisher": "NBC News"
+      }
+    ],
+    "media": []
+  },
+  {
+    "tier": "short",
+    "slug": "un-assembly-sets-up-special-committee-against-apartheid-1962",
+    "title": "The UN General Assembly Sets Up a Committee Against Apartheid",
+    "summary": "On November 6, 1962, the United Nations General Assembly adopted resolution 1761, which created the Special Committee against Apartheid.",
+    "eventDate": "1962-11-06",
+    "status": "draft",
+    "type": "politics",
+    "subtype": null,
+    "region": "world",
+    "topics": [],
+    "body": [
+      {
+        "type": "heading",
+        "text": "A Committee on Apartheid"
+      },
+      {
+        "type": "paragraph",
+        "text": "On November 6, 1962, the United Nations General Assembly adopted resolution 1761 (XVII). South African History Online records that the resolution established the Special Committee against Apartheid, with the task of keeping the racial policies of the South African government under review throughout the year. The committee began its work in April 1963. South African History Online lists its main aims as pressing for sanctions against the government in Pretoria, helping the victims of apartheid and the liberation movements, and publicizing the abuses of apartheid."
+      }
+    ],
+    "sources": [
+      {
+        "title": "UN Special Committee against Apartheid",
+        "url": "https://sahistory.org.za/node/11998",
+        "publisher": "South African History Online"
+      }
+    ],
+    "media": []
+  }
+]

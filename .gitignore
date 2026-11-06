@@ -6,3 +6,5 @@ __pycache__
 *.pyc
 *.tsbuildinfo
 *.log
+scripts/daily/tmp/
+scripts/daily/backups/

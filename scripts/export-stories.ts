@@ -2,9 +2,12 @@
  * Copy every story from the database into scripts/stories.json.
  *
  *   npm run db:tunnel
- *   npx tsx scripts/export-stories.ts
+ *   npx tsx scripts/export-stories.ts [output.json]
+ *
+ * Without an argument the file is scripts/stories.json.
  */
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
 import { prisma } from "../src/lib/prisma";
 import type { StoryBodyBlock } from "../src/lib/story-input";
 import { formatDateOnly, parseStoredBody } from "../src/lib/story-view";
@@ -66,7 +69,9 @@ async function main() {
     };
   });
 
-  const target = new URL("./stories.json", import.meta.url);
+  const output = process.argv[2];
+  if (output) mkdirSync(dirname(output), { recursive: true });
+  const target = output ?? new URL("./stories.json", import.meta.url);
   writeFileSync(target, `${JSON.stringify(stories, null, 2)}\n`);
   console.log(`wrote ${stories.length} stories`);
 }

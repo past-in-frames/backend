@@ -1,0 +1,64 @@
+{
+  "_about": "Rules for the daily story batch. Read by the /daily-stories command and by check-batch.ts. Change the numbers here, not in the command.",
+
+  "perDay": { "long": 3, "short": 7 },
+
+  "tiers": {
+    "long": {
+      "paragraphWords": [400, 520],
+      "sections": [4, 5],
+      "sources": [2, 3],
+      "when": "Pick for events that are documented by at least three institutional sources and that reached many people or countries (treaties, elections, launches, wars, disasters, major discoveries, records). Decide by those facts, never by our own view of importance, and never write that something was important."
+    },
+    "short": {
+      "paragraphWords": [80, 150],
+      "sections": [1, 2],
+      "sources": [1, 2],
+      "when": "Everything else: a documented event that fits in a short paragraph or two."
+    }
+  },
+
+  "types": {
+    "_note": "At least one story per day from each of these in rotation; with 10 stories and 14 types, continue the rotation from the day before (day of year modulo the list).",
+    "list": [
+      "history", "politics", "war", "science", "space", "technology", "medicine",
+      "nature", "exploration", "sport", "art", "music", "film", "other"
+    ]
+  },
+
+  "sources": {
+    "prefer": [
+      "archives, national libraries and museums (loc.gov, archives.gov, nationalarchives.gov.uk, smithsonian museums)",
+      "space and science agencies (nasa.gov, esa.int, noaa.gov, usgs.gov, cern.ch)",
+      "courts, parliaments, governments, the UN and other international bodies",
+      "universities and official sports bodies (olympics.com, fifa.com, and the like)",
+      "encyclopaedias such as britannica.com only as a second source"
+    ],
+    "blockedDomains": ["wikipedia.org", "wikimedia.org", "wikidata.org", "reddit.com", "quora.com", "medium.com", "blogspot.com"],
+    "okStatuses": [200, 403]
+  },
+
+  "forbiddenWords": [
+    "landmark", "turning point", "famous", "famously", "remarkable", "harsh", "symbol", "symbolic",
+    "symbolized", "symbolised", "lesson", "legacy", "reminder", "historic", "iconic", "pivotal",
+    "groundbreaking", "tragic", "heroic", "brutal", "shocking", "legendary", "unforgettable", "showed that",
+    "proved that", "taught"
+  ],
+
+  "region": ["us", "world"],
+  "topics": ["people", "places", "eras", "science"],
+
+  "images": {
+    "maxBytes": 204800,
+    "order": ["commons", "openai"],
+    "commonsLicenses": ["Public domain", "CC0", "CC BY", "CC BY-SA"],
+    "ai": {
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "quality": "medium",
+      "promptRules": "A painterly or engraving-style illustration of the scene as the sources describe it. No text, letters, logos or flags with writing. No close-up faces of real, named people. No invented objects or events that the sources do not mention."
+    }
+  },
+
+  "status": "draft"
+}
